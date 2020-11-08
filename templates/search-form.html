@@ -1,0 +1,81 @@
+{% extends 'base.html' %} {% block title %}Restaurant search{% endblock %}
+{%block body %}
+
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <h2>Let me know if you have any preference for a restaurant today</h2>
+
+      <form method="GET" action="/restaurants-search">
+        <div class="form-group">
+          <label for="search-location">Location</label>
+
+          <input
+            id="search-location"
+            class="form-control"
+            type="text"
+            name="location"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="search-categories">Categories</label>
+          <small class="form-text text-muted">
+            You can choose: American, Asian Fusion, dessert,.. Or leave it empty
+            to have a surprise!
+          </small>
+
+          <input
+            id="search-categories"
+            class="form-control"
+            type="text"
+            name="categories"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="search-price">Price</label>
+
+          <select
+            id="search-sort-by"
+            class="form-control custom-select"
+            name="price"
+          >
+            <option value="1">$</option>
+            <option value="2">$$</option>
+            <option value="3">$$$</option>
+            <option value="4">$$$$</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <input type="checkbox" id="open-now" name="open-now" checked />
+          <label for="open-now"> Open Now</label><br />
+        </div>
+
+        <div class="form-group">
+          <label for="search-sort-by">Sort by</label>
+
+          <select
+            id="search-sort-by"
+            class="form-control custom-select"
+            name="sort_by"
+          >
+            <option value="best_match">Best Match</option>
+            <option value="rating">Rating</option>
+            <option value="review_count">Review Count</option>
+            <option value="distance">Distance</option>
+          </select>
+        </div>
+
+        <input
+          type="submit"
+          value="Show me where to eat!"
+          class="btn btn-primary"
+        />
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
