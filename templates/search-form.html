@@ -6,7 +6,7 @@
     <div class="col">
       <h2>Let me know if you have any preference for a restaurant today</h2>
 
-      <form method="GET" action="/restaurants-search">
+      <form id="search-form" method="GET" action="/restaurants-search.json">
         <div class="form-group">
           <label for="search-location">Location</label>
 
@@ -37,7 +37,7 @@
           <label for="search-price">Price</label>
 
           <select
-            id="search-sort-by"
+            id="search-price"
             class="form-control custom-select"
             name="price"
           >
@@ -49,7 +49,7 @@
         </div>
 
         <div class="form-group">
-          <input type="checkbox" id="open-now" name="open-now" checked />
+          <input type="checkbox" id="search-open-now" name="open-now" checked />
           <label for="open-now"> Open Now</label><br />
         </div>
 
@@ -74,6 +74,11 @@
           class="btn btn-primary"
         />
       </form>
+
+      <div class="row">
+        <div class="col-md-6 offset-md-3" id="search-result"></div>        
+      </div>
+
     </div>
   </div>
 </div>
