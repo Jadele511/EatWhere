@@ -15,13 +15,12 @@ class User(db.Model):
     password = db.Column(db.String)
 
     # preferences from user
-    price_pref = db.Column(db.String) 
-    yelp_rating_pref = db.Column(db.Float)
-    review_count_pref = db.Column(db.Integer)
-    categories_pref = db.Column(db.String)
-    latitude_pref = db.Column(db.Float)
-    longitude_pref = db.Column(db.Float)
-    is_open_pref = db.Column(db.Boolean, default=True)
+    location = db.Column(db.String)
+    categories = db.Column(db.String)
+    price = db.Column(db.String) 
+    open_now = db.Column(db.Boolean, default=True)
+    sort_by = db.Column(db.String)
+    
 
     def __repr__(self):
         return f'<User user_id={self.user_id} email={self.email}>'
