@@ -15,11 +15,11 @@ class User(db.Model):
     password = db.Column(db.String)
 
     # preferences from user
-    location = db.Column(db.String)
-    categories = db.Column(db.String)
-    price = db.Column(db.String) 
-    open_now = db.Column(db.Boolean, default=True)
-    sort_by = db.Column(db.String)
+    # location = db.Column(db.String)
+    # categories = db.Column(db.String)
+    # price = db.Column(db.String) 
+    # open_now = db.Column(db.Boolean, default=True)
+    # sort_by = db.Column(db.String)
     
 
     def __repr__(self):
@@ -43,7 +43,6 @@ class Restaurant(db.Model):
 
     def __repr__(self):
         return f"<Restaurant res_id={self.res_id} name={self.name}>"
-
 
 
 
