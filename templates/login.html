@@ -1,0 +1,42 @@
+{% extends 'base.html' %} 
+
+{% block title %}Where to eat today{% endblock %} 
+
+{% block afterhead %}
+      <!-- Load our stylesheet -->
+      <link rel="stylesheet" href="/static/css/login.css" />
+{% endblock %}
+
+{% block body %}
+
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-10 col-xl-9 mx-auto">
+        <div class="card card-signin flex-row my-5">
+          <div class="card-img-left d-none d-md-flex">
+             <!-- Background image for card set in CSS! -->
+          </div>
+          <div class="card-body">
+            <h5 class="card-title text-center">Sign In</h5>
+            <form class="form-signin" action="/user-login" method="POST">
+              <div class="form-label-group">
+              <div class="form-label-group">
+                <input type="email" id="email" name="login-email" class="form-control" placeholder="Email address" required>
+              </div>
+              
+              <hr>
+
+              <div class="form-label-group">
+                <input type="password" id="password" name="login-password" class="form-control" placeholder="Password" required>
+              </div>              
+              <button class="btn btn-lg btn-block text-uppercase" id="register-btn" type="submit">Sign In</button>
+              <a class="d-block text-center mt-2 small" href="/">Create your account</a>
+              <a class="d-block text-center mt-2 small" href="/user-login">Forgot password?</a>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> 
+    
+{% endblock %}
