@@ -26,13 +26,6 @@ def homepage():
         return render_template("new_user.html")
 
 
-@app.route('/search')
-def show_form():
-    """Restaurant search"""
-
-    return render_template('homepage.html')
-
-
 @app.route("/restaurants-search.json")
 def get_restaurants_seach():
     location = request.args.get('location', '')
@@ -57,14 +50,14 @@ def register_user():
     user = crud.get_user_by_email(email)
     if user:
         flash("A user already exists with that email.")
-        return redirect('/')
 
     else:
         crud.create_user(email, password)
         user = crud.get_user_by_email(email)
         session['user_id'] = user.user_id
         flash("Your account is created successfully")
-        return redirect('/search')
+
+    return redirect('/')
 
 
 @app.route('/user-login-page')
@@ -82,10 +75,11 @@ def user_login():
     if crud.password_match(email, password):
         user = crud.get_user_by_email(email)
         session['user_id'] = user.user_id
-        return redirect('/search')
     else:
         flash("Your email and password do not match")
-        return redirect('/')
+    
+    return redirect('/')
+
 
 @app.route("/logout")
 def process_logout():
