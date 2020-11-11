@@ -21,16 +21,16 @@ API_KEY = os.environ['YELP_KEY']
 def homepage():
     """View homepage."""
     if 'user_id' in session:
-        return render_template("search-form.html")
+        return render_template("homepage.html")
     else:
-        return render_template("index.html")
+        return render_template("new_user.html")
 
 
-@app.route('/search-form')
+@app.route('/search')
 def show_form():
-    """Show event search form"""
+    """Restaurant search"""
 
-    return render_template('search-form.html')
+    return render_template('homepage.html')
 
 
 @app.route("/restaurants-search.json")
@@ -64,7 +64,7 @@ def register_user():
         user = crud.get_user_by_email(email)
         session['user_id'] = user.user_id
         flash("Your account is created successfully")
-        return redirect('/search-form')
+        return redirect('/search')
 
 
 @app.route('/user-login-page')
@@ -82,7 +82,7 @@ def user_login():
     if crud.password_match(email, password):
         user = crud.get_user_by_email(email)
         session['user_id'] = user.user_id
-        return redirect('/search-form')
+        return redirect('/search')
     else:
         flash("Your email and password do not match")
         return redirect('/')
