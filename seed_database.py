@@ -17,6 +17,7 @@ model.db.create_all()
 
 
 for n in range(10):
+    # user_name = f'test{n}'
     email = f'user{n}@test.com'
     password = 'test'
 

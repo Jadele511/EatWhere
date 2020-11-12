@@ -1,54 +1,109 @@
-{% extends 'base.html' %} 
+{% extends 'base.html' %} {% block title %}Where to eat today{% endblock %} {%
+block afterhead %}
+<!-- Load our stylesheet -->
+<link rel="stylesheet" href="/static/css/login.css" />
+{% endblock %} {% block body %}
 
-{% block title %}Where to eat today{% endblock %} 
+<div class="container">
+  <div class="row">
+    <div class="col-lg-10 col-xl-9 mx-auto">
+      <div class="card card-signin flex-row my-5">
+        <div class="card-img-left d-none d-md-flex">
+          <!-- Background image for card set in CSS! -->
+        </div>
+        <div class="card-body">
+          <h2 class="card-title text-center" style="color: #a02a28; font-weight: 700; font-family: Arial;">EatWhere</h2>
+          <form class="form-signin" action="/new-user" method="POST">
+            <div class="form-label-group">
+              <input
+                type="text"
+                id="username"
+                name="username"
+                class="form-control"
+                placeholder="Username"
+                required
+                autofocus
+              />
+            </div>
 
-{% block afterhead %}
-      <!-- Load our stylesheet -->
-      <link rel="stylesheet" href="/static/css/login.css" />
-{% endblock %}
+            <div class="form-label-group">
+              <input
+                type="email"
+                id="email"
+                name="email"
+                class="form-control"
+                placeholder="Email address"
+                required
+              />
+            </div>
 
-{% block body %}
+            <hr />
 
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-10 col-xl-9 mx-auto">
-        <div class="card card-signin flex-row my-5">
-          <div class="card-img-left d-none d-md-flex">
-             <!-- Background image for card set in CSS! -->
-          </div>
-          <div class="card-body">
-            <h5 class="card-title text-center">Register</h5>
-            <form class="form-signin" action="/new-user" method="POST">
-              <div class="form-label-group">
-                <input type="text" id="username" name="username" class="form-control" placeholder="Username" required autofocus>
-              </div>
+            <div class="form-label-group">
+              <input
+                type="password"
+                id="password"
+                name="password"
+                class="form-control"
+                placeholder="Password"
+                required
+              />
+            </div>
 
-              <div class="form-label-group">
-                <input type="email" id="email" name="email" class="form-control" placeholder="Email address" required>
-              </div>
-              
-              <hr>
+            <div class="form-label-group">
+              <input
+                type="password"
+                id="confirm-password"
+                class="form-control"
+                placeholder="Confirm password"
+                required
+              />
+            </div>
 
-              <div class="form-label-group">
-                <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
-              </div>
-              
-              <div class="form-label-group">
-                <input type="password" id="confirm-password" class="form-control" placeholder="Confirm password" required>
-              </div>
+            <button
+              class="btn btn-lg btn-block text-uppercase"
+              id="register-btn"
+              type="submit"
+            >
+              Register
+            </button>
+            <a class="d-block text-center mt-2 small" href="/user-login-page"
+              >Sign In</a
+            >
+            <a class="d-block text-center mt-2 small" href="/forgot-password"
+              >Forgot password?</a
+            >
 
-              <button class="btn btn-lg btn-block text-uppercase" id="register-btn" type="submit">Register</button>
-              <a class="d-block text-center mt-2 small" href="/user-login-page">Sign In</a>
-              <a class="d-block text-center mt-2 small" href="/forgot-password">Forgot password?</a>
-
-              <hr class="my-4">
-              <button class="btn btn-lg btn-google btn-block text-uppercase" type="submit"><i class="fa fa-google mr-2"></i> Sign up with Google</button>
-              <button class="btn btn-lg btn-facebook btn-block text-uppercase" type="submit"><i class="fa fa-facebook-f mr-2"></i> Sign up with Facebook</button>
-            </form>
-          </div>
+            <hr class="my-4" />
+            <a
+              class="btn btn-lg btn-outline-dark btn-block"
+              href="/google-login"
+              role="button"
+            >
+              <img
+                class="logo"
+                alt="Google sign-in"
+                src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png"
+              />
+              LOGIN WITH GOOGLE
+            </a>
+            <a
+              class="btn btn-lg btn-outline-dark btn-block"
+              href="/facebook-login"
+              role="button"
+            >
+              <img
+                class="logo"
+                alt="Facebook sign-in"
+                src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg"
+              />
+              LOGIN WITH FACEBOOK
+            </a>
+          </form>
         </div>
       </div>
     </div>
-  </div> 
-    
+  </div>
+</div>
+
 {% endblock %}

@@ -2,6 +2,7 @@
 
 from model import db, User, connect_to_db
 
+
 def create_user(email, password):
     """Create and return a new user."""
 

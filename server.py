@@ -1,26 +1,50 @@
 """Server for EatWhere app."""
 
 from flask import (Flask, render_template, request, flash, session,
-                   redirect, jsonify)
+                   redirect, jsonify, url_for)
 from model import connect_to_db
 import os
 import crud
 from jinja2 import StrictUndefined
 from yelpapi import YelpAPI
 import requests
+from authlib.integrations.flask_client import OAuth
+from datetime import timedelta
+
 
 
 app = Flask(__name__)
-app.secret_key = 'dev'
+app.secret_key = os.environ['APP_SECRET_KEY']
+
 app.jinja_env.undefined = StrictUndefined
+app.config['SESSION_COOKIE_NAME'] = 'google-login-session'
+# app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=5)
 
 API_KEY = os.environ['YELP_KEY']
+
+
+# oAuth Setup
+oauth = OAuth(app)
+google = oauth.register(
+    name='google',
+    client_id=os.getenv("GOOGLE_CLIENT_ID"),
+    client_secret=os.getenv("GOOGLE_CLIENT_SECRET"),
+    access_token_url='https://accounts.google.com/o/oauth2/token',
+    access_token_params=None,
+    authorize_url='https://accounts.google.com/o/oauth2/auth',
+    authorize_params=None,
+    api_base_url='https://www.googleapis.com/oauth2/v1/',
+    userinfo_endpoint='https://openidconnect.googleapis.com/v1/userinfo',  # This is only needed if using openId to fetch user info
+    client_kwargs={'scope': 'openid email profile'},
+)
+
 
 
 @app.route("/")
 def homepage():
     """View homepage."""
-    if 'user_id' in session:
+    
+    if 'email' in session:
         return render_template("homepage.html")
     else:
         return render_template("new_user.html")
@@ -54,7 +78,7 @@ def register_user():
     else:
         crud.create_user(email, password)
         user = crud.get_user_by_email(email)
-        session['user_id'] = user.user_id
+        session['email'] = user.email
         flash("Your account is created successfully")
 
     return redirect('/')
@@ -74,18 +98,36 @@ def user_login():
 
     if crud.password_match(email, password):
         user = crud.get_user_by_email(email)
-        session['user_id'] = user.user_id
+        session['email'] = user.email
     else:
         flash("Your email and password do not match")
     
     return redirect('/')
 
+@app.route('/google-login')
+def login():
+    google = oauth.create_client('google')  # create the google oauth client
+    redirect_uri = url_for('authorize', _external=True)
+    return google.authorize_redirect(redirect_uri)
+
+
+@app.route('/authorize')
+def authorize():
+    google = oauth.create_client('google')  # create the google oauth client
+    token = google.authorize_access_token()  # Access token from google (needed to get user info)
+    resp = google.get('userinfo')  # userinfo contains stuff u specificed in the scope
+    user_info = resp.json()
+    user = oauth.google.userinfo()  # uses openid endpoint to fetch user info
+    
+    session['email'] = user_info['email']
+   
+    return render_template("homepage.html")
+
 
 @app.route("/logout")
 def process_logout():
-    del session['user_id']
-    flash('Logged out')
-    
+    del session['email']
+    flash('Logged out')    
     return redirect('/')
 
 
