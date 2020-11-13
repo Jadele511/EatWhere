@@ -56,7 +56,7 @@ def get_restaurants_seach():
     categories = request.args.get('categories', '')
     price = request.args.get('price', '')
     open_now = request.args.get('open_now', True)
-    sort_by = request.args.get('sort_by', 'best_match')
+    sort_by = request.args.get('sort_by')
 
     yelp_res = YelpAPI(API_KEY).search_query(location=location, categories=categories,
                                              price=price, open_now=open_now, sort_by=sort_by, limit=1)
@@ -119,15 +119,14 @@ def authorize():
     user_info = resp.json()
     user = oauth.google.userinfo()  # uses openid endpoint to fetch user info
     
-    session['email'] = user_info['email']
-   
+    session['profile'] = user_info
     return render_template("homepage.html")
 
 
 @app.route("/logout")
 def process_logout():
-    del session['email']
-    flash('Logged out')    
+    for key in list(session.keys()):
+        session.pop(key)   
     return redirect('/')
 
 
