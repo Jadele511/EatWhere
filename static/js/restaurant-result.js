@@ -1,5 +1,27 @@
 "use strict";
 
+let resultIndex = 0;
+let resultYelp = []
+
+$('#next').on('click', () => {
+  resultIndex++;
+  resultIndex %= 5;
+  showRes();
+})
+
+function showRes(){
+    $('#search-result>img').attr('src', `${resultYelp[resultIndex].image_url}`)
+    $('#res-name').html(`${resultYelp[resultIndex].name}`)
+    $('#rating').html(`${resultYelp[resultIndex].rating}`)
+    $('#review-count').html(`${resultYelp[resultIndex].review_count} reviews `)
+    $('#price').html(`${resultYelp[resultIndex].price}`)
+    $('#categories').html(`${resultYelp[resultIndex].categories[0].title}`)
+    $('#address').html(`${resultYelp[resultIndex].location.display_address}`)
+    $('#res-details').attr('action', `${resultYelp[resultIndex].url}`)
+    $('#res-details>input').attr('type', 'submit')
+}
+
+
 $('#search-form').on('submit', (evt) => {
   evt.preventDefault();
 
@@ -16,15 +38,10 @@ $('#search-form').on('submit', (evt) => {
   // Send formData to the server (becomes a query string)
   $.get('/restaurants-search.json', formData, (res) => {
     // Display response from the server
-    $('#search-result>img').attr('src', `${res.businesses[0].image_url}`)
-    $('#res-name').html(`${res.businesses[0].name}`)
-    $('#rating').html(`${res.businesses[0].rating}`)
-    $('#review-count').html(`${res.businesses[0].review_count} reviews `)
-    $('#price').html(`${res.businesses[0].price}`)
-    $('#categories').html(`${res.businesses[0].categories[0].title}`)
-    $('#address').html(`${res.businesses[0].location.display_address}`)
-    $('#res-details').attr('action', `${res.businesses[0].url}`)
-    $('#res-details>input').attr('type', 'submit')
-
+    resultYelp = res.businesses; 
+    showRes();
   });
 });
+
+
+
