@@ -37,7 +37,7 @@
                     placeholder="Enter food type"
                   />
                 </div>
-                <div class="col-lg-2 col-md-2 col-sm-12 p-0">
+                <div class="col-lg-3 col-md-3 col-sm-12 p-0">
                   <select
                     id="search-price"
                     class="form-control custom-select"
@@ -50,18 +50,12 @@
                   </select>
                 </div>
 
-                <!-- <div class="col-lg-3 col-md-3 col-sm-12 p-0">
-                      <input type="checkbox" id="search-open-now" name="open-now" checked />
-                      <label for="open-now"> Open Now</label><br />
-                    </div> -->
-
-                <div class="col-lg-2 col-md-2 col-sm-12 p-0">
+                <div class="col-lg-3 col-md-3 col-sm-12 p-0">
                   <select
                     id="search-sort-by"
                     class="form-control custom-select"
                     name="sort_by"
                   >
-                    <option>Sort by</option>
                     <option value="best_match">Best Match</option>
                     <option value="rating">Rating</option>
                     <option value="review_count">Review Count</option>
@@ -69,14 +63,6 @@
                   </select>
                 </div>
 
-                <div class="col-lg-2 col-md-2 col-sm-12 p-0">
-                  <input
-                    type="submit"
-                    value="SEARCH"
-                    class="btn btn-block center"
-                    style="background-color: #bbcf81"
-                  />
-                </div>
               </div>
             </div>
           </div>
@@ -95,12 +81,10 @@
       <p id="price"></p>
       <p id="categories"></p>
       <p id="address"></p>
-      <form action="" id="res-details">
-        <input type="hidden" value="Restaurant details on Yelp" />
-      </form>
+      <a id="res-details" type="button" href="" style="display: none;">Restaurant details on Yelp</a>
     </div>
   </div>
-  <button type="button" id="next">Next</button>
+  <button type="button" id="nextBtn" style="display: none;">Next</button>
 </section>
 
 {% endblock %}
