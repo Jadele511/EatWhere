@@ -16,11 +16,15 @@ $('#search-form').on('submit', (evt) => {
   // Send formData to the server (becomes a query string)
   $.get('/restaurants-search.json', formData, (res) => {
     // Display response from the server
-    $('#search-result').append(`<h2>${res.businesses[0].name}</h2>`)
-    $('#search-result').append(`<p>${res.businesses[0].rating}</p>`)
-    $('#search-result').append(`<p>${res.businesses[0].review_count} reviews </p>`)
-    $('#search-result').append(`<p>${res.businesses[0].location.address1} reviews </p>`)
-    // $('#search-result').append(`<img src=${res.businesses[0].image_url} reviews>`)
-    $('#search-result').append(`<form action=${res.businesses[0].url}><input type="submit" value="Restaurant details on Yelp" /></form>`)
+    $('#search-result>img').attr('src', `${res.businesses[0].image_url}`)
+    $('#res-name').html(`${res.businesses[0].name}`)
+    $('#rating').html(`${res.businesses[0].rating}`)
+    $('#review-count').html(`${res.businesses[0].review_count} reviews `)
+    $('#price').html(`${res.businesses[0].price}`)
+    $('#categories').html(`${res.businesses[0].categories[0].title}`)
+    $('#address').html(`${res.businesses[0].location.display_address}`)
+    $('#res-details').attr('action', `${res.businesses[0].url}`)
+    $('#res-details>input').attr('type', 'submit')
+
   });
 });

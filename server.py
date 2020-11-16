@@ -59,7 +59,7 @@ def get_restaurants_seach():
     sort_by = request.args.get('sort_by')
 
     yelp_res = YelpAPI(API_KEY).search_query(location=location, categories=categories,
-                                             price=price, open_now=open_now, sort_by=sort_by, limit=1)
+                                             price=price, open_now=open_now, sort_by=sort_by, limit=5)
 
     return jsonify(yelp_res)
 
@@ -119,8 +119,8 @@ def authorize():
     user_info = resp.json()
     user = oauth.google.userinfo()  # uses openid endpoint to fetch user info
     
-    session['profile'] = user_info
-    return render_template("homepage.html")
+    session['email'] = user_info['email']
+    return redirect('/')
 
 
 @app.route("/logout")

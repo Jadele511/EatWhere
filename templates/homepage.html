@@ -1,87 +1,105 @@
 {% extends 'base.html' %} {% block title %}Restaurant search{% endblock %}
 {%block body %}
 
-<div class="container">
-  <div class="row">
-    <div class="col">
-      <h2>Let me know if you have any preference for a restaurant today</h2>
+<nav class="navbar navbar-light bg-light">
+  <a class="btn navbar-btn btn-danger ml-auto" role="button" href="/logout"
+    >Logout</a
+  >
+</nav>
 
-      <form id="search-form" method="GET" action="/restaurants-search.json">
-        <div class="form-group">
-          <label for="search-location">Location</label>
+<section class="search-sec center">
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <h2>Let me know if you have any preference for a restaurant today</h2>
 
-          <input
-            id="search-location"
-            class="form-control"
-            type="text"
-            name="location"
-            required
-          />
-        </div>
+        <form id="search-form" method="GET" action="/restaurants-search.json">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="row">
+                <div class="col-lg-3 col-md-3 col-sm-12 p-0 form-label-group">
+                  <input
+                    id="search-location"
+                    class="form-control"
+                    type="text"
+                    name="location"
+                    required
+                    placeholder="Enter location"
+                  />
+                </div>
 
-        <div class="form-group">
-          <label for="search-categories">Categories</label>
-          <small class="form-text text-muted">
-            You can choose: American, Asian Fusion, dessert,.. Or leave it empty
-            to have a surprise!
-          </small>
+                <div class="col-lg-3 col-md-3 col-sm-12 p-0">
+                  <input
+                    id="search-categories"
+                    class="form-control"
+                    type="text"
+                    name="categories"
+                    placeholder="Enter food type"
+                  />
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-12 p-0">
+                  <select
+                    id="search-price"
+                    class="form-control custom-select"
+                    name="price"
+                  >
+                    <option value="1">$</option>
+                    <option value="2">$$</option>
+                    <option value="3">$$$</option>
+                    <option value="4">$$$$</option>
+                  </select>
+                </div>
 
-          <input
-            id="search-categories"
-            class="form-control"
-            type="text"
-            name="categories"
-          />
-        </div>
+                <!-- <div class="col-lg-3 col-md-3 col-sm-12 p-0">
+                      <input type="checkbox" id="search-open-now" name="open-now" checked />
+                      <label for="open-now"> Open Now</label><br />
+                    </div> -->
 
-        <div class="form-group">
-          <label for="search-price">Price</label>
+                <div class="col-lg-2 col-md-2 col-sm-12 p-0">
+                  <select
+                    id="search-sort-by"
+                    class="form-control custom-select"
+                    name="sort_by"
+                  >
+                    <option>Sort by</option>
+                    <option value="best_match">Best Match</option>
+                    <option value="rating">Rating</option>
+                    <option value="review_count">Review Count</option>
+                    <option value="distance">Distance</option>
+                  </select>
+                </div>
 
-          <select
-            id="search-price"
-            class="form-control custom-select"
-            name="price"
-          >
-            <option value="1">$</option>
-            <option value="2">$$</option>
-            <option value="3">$$$</option>
-            <option value="4">$$$$</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <input type="checkbox" id="search-open-now" name="open-now" checked />
-          <label for="open-now"> Open Now</label><br />
-        </div>
-
-        <div class="form-group">
-          <label for="search-sort-by">Sort by</label>
-
-          <select
-            id="search-sort-by"
-            class="form-control custom-select"
-            name="sort_by"
-          >
-            <option value="best_match">Best Match</option>
-            <option value="rating">Rating</option>
-            <option value="review_count">Review Count</option>
-            <option value="distance">Distance</option>
-          </select>
-        </div>
-
-        <input
-          type="submit"
-          value="Show me where to eat!"
-          class="btn btn-primary"
-        />
-      </form>
-
-      <div class="row">
-        <div class="col-md-6 offset-md-3" id="search-result"></div>        
+                <div class="col-lg-2 col-md-2 col-sm-12 p-0">
+                  <input
+                    type="submit"
+                    value="SEARCH"
+                    class="btn btn-block center"
+                    style="background-color: #bbcf81"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
       </div>
-
     </div>
   </div>
-</div>
+</section>
+<section class="search-result-sec d-flex justify-content-center">
+  <div class="row">
+    <div class="col-md-6 offset-md-3" id="search-result">
+      <img id="res-img" style="width: 50%" />
+      <h2 id="res-name"></h2>
+      <p id="rating"></p>
+      <p id="review-count"></p>
+      <p id="price"></p>
+      <p id="categories"></p>
+      <p id="address"></p>
+      <form action="" id="res-details">
+        <input type="hidden" value="Restaurant details on Yelp" />
+      </form>
+    </div>
+  </div>
+</section>
 
 {% endblock %}

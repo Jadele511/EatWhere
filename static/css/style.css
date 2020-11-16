@@ -1,1 +1,10 @@
 /* color schemes: https://coolors.co/fcf4df-e55e5b-f6f6f6-a02a28-bbcf81-f7c157 */
+
+body {
+    background: #f7c157;
+}
+
+.form-label-group {
+  position: relative;
+  margin-bottom: 1rem;
+}
