@@ -2,6 +2,8 @@
 
 let resultIndex = 0;
 let resultYelp = [];
+let long = 0;
+let lat = 0;
 
 $("#nextBtn").on("click", () => {
   resultIndex++;
@@ -21,10 +23,19 @@ function showRes() {
   $("#res-details").attr("style", "display: block");
 }
 
+if (navigator.geolocation) {
+  navigator.geolocation.getCurrentPosition(processPosition);
+} else {
+  alert("Geolocation is not supported by this browser.");
+}
 
-function onChange(evt) {
-  evt.preventDefault();
+function processPosition(position) {
+  lat = position.coords.latitude;
+  long = position.coords.longitude;
+  getYelpRes();
+}
 
+function getYelpRes() {
   const formData = {
     location: $("#search-location").val(),
     categories: $("#search-categories").val(),
@@ -32,18 +43,27 @@ function onChange(evt) {
     sort_by: $("#search-sort-by").val(),
   };
 
+  if (formData.location === "") {
+    delete formData.location;
+    formData.longitude = long;
+    formData.latitude = lat;
+  }
+
   $.get("/restaurants-search.json", formData, (res) => {
     // Display response from the server
     resultYelp = res.businesses;
     showRes();
     $("#nextBtn").attr("style", "display: block");
-
   });
 }
-$("#search-location").on('change', onChange);
-$("#search-categories").on('change', onChange);
-$("#search-price").on('change', onChange);
-$("#search-sort-by").on('change', onChange);
+
+function onChange(evt) {
+  evt.preventDefault();
+  getYelpRes();  
+}
 
 
-
+$("#search-location").on("change", onChange);
+$("#search-categories").on("change", onChange);
+$("#search-price").on("change", onChange);
+$("#search-sort-by").on("change", onChange);

@@ -12,7 +12,6 @@ from authlib.integrations.flask_client import OAuth
 from datetime import timedelta
 
 
-
 app = Flask(__name__)
 app.secret_key = os.environ['APP_SECRET_KEY']
 
@@ -34,16 +33,16 @@ google = oauth.register(
     authorize_url='https://accounts.google.com/o/oauth2/auth',
     authorize_params=None,
     api_base_url='https://www.googleapis.com/oauth2/v1/',
-    userinfo_endpoint='https://openidconnect.googleapis.com/v1/userinfo',  # This is only needed if using openId to fetch user info
+    # This is only needed if using openId to fetch user info
+    userinfo_endpoint='https://openidconnect.googleapis.com/v1/userinfo',
     client_kwargs={'scope': 'openid email profile'},
 )
-
 
 
 @app.route("/")
 def homepage():
     """View homepage."""
-    
+
     if 'email' in session:
         return render_template("homepage.html")
     else:
@@ -52,14 +51,16 @@ def homepage():
 
 @app.route("/restaurants-search.json")
 def get_restaurants_seach():
-    location = request.args.get('location', '')
-    categories = request.args.get('categories', '')
-    price = request.args.get('price', '')
-    open_now = request.args.get('open_now', True)
+    location = request.args.get('location')
+    longitude = request.args.get('longitude')
+    latitude = request.args.get('latitude')
+    categories = request.args.get('categories')
+    price = request.args.get('price')
     sort_by = request.args.get('sort_by')
+    
 
-    yelp_res = YelpAPI(API_KEY).search_query(location=location, categories=categories,
-                                             price=price, open_now=open_now, sort_by=sort_by, limit=5)
+    yelp_res = YelpAPI(API_KEY).search_query(location=location, longitude=longitude, latitude=latitude, categories=categories,
+                                             price=price, sort_by=sort_by, limit=5)
 
     return jsonify(yelp_res)
 
@@ -101,8 +102,9 @@ def user_login():
         session['email'] = user.email
     else:
         flash("Your email and password do not match")
-    
+
     return redirect('/')
+
 
 @app.route('/google-login')
 def login():
@@ -114,11 +116,13 @@ def login():
 @app.route('/authorize')
 def authorize():
     google = oauth.create_client('google')  # create the google oauth client
-    token = google.authorize_access_token()  # Access token from google (needed to get user info)
-    resp = google.get('userinfo')  # userinfo contains stuff u specificed in the scope
+    # Access token from google (needed to get user info)
+    token = google.authorize_access_token()
+    # userinfo contains stuff u specificed in the scope
+    resp = google.get('userinfo')
     user_info = resp.json()
     user = oauth.google.userinfo()  # uses openid endpoint to fetch user info
-    
+
     session['email'] = user_info['email']
     return redirect('/')
 
@@ -126,7 +130,7 @@ def authorize():
 @app.route("/logout")
 def process_logout():
     for key in list(session.keys()):
-        session.pop(key)   
+        session.pop(key)
     return redirect('/')
 
 
