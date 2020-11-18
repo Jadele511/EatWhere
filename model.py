@@ -46,7 +46,7 @@ class Like(db.Model):
     yelp_id = db.Column(db.String, db.ForeignKey('restaurants.yelp_id'))
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
 
-    restaurant = db.relationship('Restaurant', backref='likes')
+    res = db.relationship('Restaurant', backref='likes')
     user = db.relationship('User', backref='likes')
 
     def __repr__(self):
