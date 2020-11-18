@@ -8,10 +8,7 @@ db = SQLAlchemy()
 class User(db.Model):
     """A user."""
     __tablename__ = 'users'
-    user_id = db.Column(db.Integer,
-                        primary_key=True,
-                        autoincrement=True)
-    # user_name = db.Column(db.String)                    
+    user_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     email = db.Column(db.String, unique=True)
     password = db.Column(db.String)
 
@@ -31,20 +28,29 @@ class Restaurant(db.Model):
     """A restaurant that user likes and saves it."""
     __tablename__ = 'restaurants'
 
-    res_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    yelp_id = db.Column(db.String) # pull from Yelp API
-    name = db.Column(db.String) # pull from Yelp API
-    like = db.Column(db.Boolean, default=False)
-    has_feedback = db.Column(db.Boolean, default=False)
-
-    # timestamp optional
-
-    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
-
+    yelp_id = db.Column(db.String, primary_key=True) # pull from Yelp API
+    # name = db.Column(db.String)
 
     def __repr__(self):
-        return f"<Restaurant res_id={self.res_id} name={self.name}>"
+        return f"<Restaurant yelp_id={self.yelp_id}"
+        #name={self.name}>"
 
+
+class Like(db.Model):
+    """A like"""
+
+    __tablename__= 'likes'
+
+    like_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    is_liked = db.Column(db.Boolean, default=False)    
+    yelp_id = db.Column(db.String, db.ForeignKey('restaurants.yelp_id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
+
+    restaurant = db.relationship('Restaurant', backref='likes')
+    user = db.relationship('User', backref='likes')
+
+    def __repr__(self):
+        return f"<Like like_id={self.like_id} is_liked={self.is_liked}"
 
 
 def connect_to_db(flask_app, db_uri='postgresql:///eatwhere', echo=True):
