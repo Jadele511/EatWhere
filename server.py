@@ -43,7 +43,7 @@ google = oauth.register(
 def homepage():
     """View homepage."""
 
-    if 'email' in session:
+    if 'user_id' in session:
         return render_template("homepage.html")
     else:
         return render_template("new_user.html")
@@ -64,6 +64,13 @@ def get_restaurants_seach():
 
     return jsonify(yelp_res)
 
+# @app.route("/restaurant-details.json")
+# def restaurant_details():
+
+#     yelp_res = YelpAPI(API_KEY).business_query(id='amys-ice-creams-austin-3')
+
+#     return jsonify(yelp_res)
+
 
 @app.route('/new-user', methods=['POST'])
 def register_user():
@@ -79,7 +86,7 @@ def register_user():
     else:
         crud.create_user(email, password)
         user = crud.get_user_by_email(email)
-        session['email'] = user.email
+        session['user_id'] = user.user_id
         flash("Your account is created successfully")
 
     return redirect('/')
@@ -99,7 +106,7 @@ def user_login():
 
     if crud.password_match(email, password):
         user = crud.get_user_by_email(email)
-        session['email'] = user.email
+        session['user_id'] = user.user_id
     else:
         flash("Your email and password do not match")
 
@@ -122,8 +129,14 @@ def authorize():
     resp = google.get('userinfo')
     user_info = resp.json()
     user = oauth.google.userinfo()  # uses openid endpoint to fetch user info
+    email = user_info['email']
 
-    session['email'] = user_info['email']
+    if not crud.email_exist(email):
+        crud.create_user(email)
+
+    user = crud.get_user_by_email(email)
+    session['user_id'] = user.user_id
+
     return redirect('/')
 
 
@@ -132,6 +145,8 @@ def process_logout():
     for key in list(session.keys()):
         session.pop(key)
     return redirect('/')
+
+
 
 
 if __name__ == '__main__':
