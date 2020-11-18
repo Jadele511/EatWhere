@@ -38,12 +38,12 @@ google = oauth.register(
     client_kwargs={'scope': 'openid email profile'},
 )
 
-
 @app.route("/")
 def homepage():
     """View homepage."""
 
     if 'user_id' in session:
+
         return render_template("homepage.html")
     else:
         return render_template("new_user.html")
@@ -61,7 +61,6 @@ def get_restaurants_seach():
 
     yelp_res = YelpAPI(API_KEY).search_query(location=location, longitude=longitude, latitude=latitude, categories=categories,
                                              price=price, sort_by=sort_by, limit=5)
-
     return jsonify(yelp_res)
 
 # @app.route("/restaurant-details.json")
@@ -146,16 +145,20 @@ def process_logout():
         session.pop(key)
     return redirect('/')
 
+
+
 @app.route('/like/<yelp_id>')
 def is_liked(yelp_id):
     user_id = session['user_id']
     user = crud.get_user_by_id(user_id)
-    crud.create_restaurant(yelp_id)
     res = crud.get_restaurant_by_id(yelp_id)
+    if not res:
+        crud.create_restaurant(yelp_id)
+        res = crud.get_restaurant_by_id(yelp_id)
+    
     crud.create_like(user, res, is_liked=True)
 
-    return 'true'
-
+    return redirect('/')
 
 
 if __name__ == '__main__':

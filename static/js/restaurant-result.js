@@ -5,11 +5,7 @@ let resultYelp = [];
 let long = 0;
 let lat = 0;
 
-$("#nextBtn").on("click", () => {
-  resultIndex++;
-  resultIndex %= 5;
-  showRes();
-});
+
 
 function showRes() {
   $("#search-result>img").attr("src", `${resultYelp[resultIndex].image_url}`);
@@ -21,7 +17,22 @@ function showRes() {
   $("#address").html(`${resultYelp[resultIndex].location.display_address}`);
   $("#res-details").attr("href", `${resultYelp[resultIndex].url}`);
   $("#res-details").attr("style", "display: block");
+  // $("#thumbs-up").attr("href", `/like/${resultYelp[resultIndex].id}`)
+  
 }
+
+$("#nextBtn").on("click", () => {
+  resultIndex++;
+  resultIndex %= 5;
+  showRes();
+});
+
+$("#thumbs-up").on("click", () => {
+  $.get(`/like/${resultYelp[resultIndex].id}`, () => {
+    // $("#thumbs-up").attr("style", "background-color: red");
+  })
+});
+
 
 if (navigator.geolocation) {
   navigator.geolocation.getCurrentPosition(processPosition);
@@ -54,6 +65,7 @@ function getYelpRes() {
     resultYelp = res.businesses;
     showRes();
     $("#nextBtn").attr("style", "display: block");
+    $("#thumbs-up").attr("style", "display: block");
   });
 }
 
