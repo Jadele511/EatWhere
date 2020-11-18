@@ -146,6 +146,15 @@ def process_logout():
         session.pop(key)
     return redirect('/')
 
+@app.route('/like/<yelp_id>')
+def is_liked(yelp_id):
+    user_id = session['user_id']
+    user = crud.get_user_by_id(user_id)
+    crud.create_restaurant(yelp_id)
+    res = crud.get_restaurant_by_id(yelp_id)
+    crud.create_like(user, res, is_liked=True)
+
+    return 'true'
 
 
 
