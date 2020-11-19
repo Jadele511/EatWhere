@@ -42,7 +42,6 @@ class Like(db.Model):
     __tablename__= 'likes'
 
     like_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    is_liked = db.Column(db.Boolean, default=False)    
     yelp_id = db.Column(db.String, db.ForeignKey('restaurants.yelp_id'))
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
 
@@ -50,7 +49,7 @@ class Like(db.Model):
     user = db.relationship('User', backref='likes')
 
     def __repr__(self):
-        return f"<Like like_id={self.like_id} is_liked={self.is_liked}"
+        return f"<Like like_id={self.like_id}"
 
 
 def connect_to_db(flask_app, db_uri='postgresql:///eatwhere', echo=True):

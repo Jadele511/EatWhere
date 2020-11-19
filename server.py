@@ -61,7 +61,13 @@ def get_restaurants_seach():
 
     yelp_res = YelpAPI(API_KEY).search_query(location=location, longitude=longitude, latitude=latitude, categories=categories,
                                              price=price, sort_by=sort_by, limit=5)
+
     return jsonify(yelp_res)
+
+    # create new objects and pass in fields we need from yelp. Add liked field from database to the new object
+
+
+
 
 # @app.route("/restaurant-details.json")
 # def restaurant_details():
@@ -155,10 +161,15 @@ def is_liked(yelp_id):
     if not res:
         crud.create_restaurant(yelp_id)
         res = crud.get_restaurant_by_id(yelp_id)
-    
-    crud.create_like(user, res, is_liked=True)
 
-    return redirect('/')
+    like = crud.get_like(user, res)
+
+    if like:
+        crud.delete_like(like)
+    else:
+        crud.create_like(user, res)
+
+    return jsonify({'liked' : like == None})
 
 
 if __name__ == '__main__':

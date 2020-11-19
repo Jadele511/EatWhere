@@ -24,10 +24,10 @@ def create_restaurant(yelp_id):
     return res
 
 
-def create_like(user, res, is_liked=False):
+def create_like(user, res):
     """ Change like attribute to true """
 
-    like = Like(user=user, res=res, is_liked=is_liked)
+    like = Like(user=user, res=res)
 
     db.session.add(like)
     db.session.commit()
@@ -48,9 +48,6 @@ def get_user_by_id(user_id):
     """Return user by id."""
     return User.query.get(user_id)
 
-def get_restaurant_by_id(yelp_id):
-    """Return restaurant by id."""
-    return Restaurant.query.get(yelp_id)
 
 def get_user_by_email(email):
     """ Return user by email """
@@ -67,6 +64,20 @@ def email_exist(email):
     """ Check if email matches"""
     return User.query.filter(User.email == email).first() != None
 
+def get_restaurant_by_id(yelp_id):
+    """Return restaurant by id."""
+    return Restaurant.query.get(yelp_id)
+
+
+def get_like(user, res):
+    """ Return like by user and restaurant """ 
+    return Like.query.filter(Like.user==user, Like.res==res).first()
+
+def delete_like(like):
+    """Delete a like"""
+    
+    db.session.delete(like)
+    db.session.commit()
 
 if __name__ == '__main__':
     from server import app
