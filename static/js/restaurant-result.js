@@ -8,16 +8,20 @@ let lat = 0;
 
 
 function showRes() {
-  $("#search-result>img").attr("src", `${resultYelp[resultIndex].image_url}`);
-  $("#res-name").html(`${resultYelp[resultIndex].name}`);
-  $("#rating").html(`${resultYelp[resultIndex].rating}`);
-  $("#review-count").html(`${resultYelp[resultIndex].review_count} reviews `);
-  $("#price").html(`${resultYelp[resultIndex].price}`);
-  $("#categories").html(`${resultYelp[resultIndex].categories}`);
-  $("#address").html(`${resultYelp[resultIndex].address}`);
-  $("#res-details").attr("href", `${resultYelp[resultIndex].url}`);
+  let biz = resultYelp[resultIndex];
+
+  $("#search-result>img").attr("src", `${biz.image_url}`);
+  $("#res-name").html(`${biz.name}`);
+  $("#rating").html(`${biz.rating}`);
+  $("#review-count").html(`${biz.review_count} reviews `);
+  $("#price").html(`${biz.price}`);
+  $("#categories").html(`${biz.categories}`);
+  $("#address").html(`${biz.address}`);
+  $("#res-details").attr("href", `${biz.url}`);
   $("#res-details").attr("style", "display: block");
-  $("#thumbs-up").attr("style", "display: block");  
+
+  let color = biz.liked ? "darkblue" : "gray"  
+  $("#thumbs-up").attr("style", "display: block; color:" + color);  
 }
 
 $("#nextBtn").on("click", () => {
@@ -27,12 +31,10 @@ $("#nextBtn").on("click", () => {
 });
 
 $("#thumbs-up").on("click", () => {
-  $.get(`/like/${resultYelp[resultIndex].id}`, (res) => {
-    if (res.liked == true) {
-      $("#thumbs-up").attr("style", "background-color: red");
-    } else {
-      $("#thumbs-up").attr("style", "display: block");
-    }   
+  let biz = resultYelp[resultIndex];
+  $.get(`/like/${biz.id}`, (res) => {
+    let color = res.liked ? "darkblue" : "gray"  
+    $("#thumbs-up").attr("style", "display: block; color:" + color); 
   })
 });
 

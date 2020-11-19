@@ -64,9 +64,15 @@ def get_restaurants_seach():
 
     yelp_list = yelp_res["businesses"]
     biz_list = []
+
+    user_id = session['user_id']
+    user = crud.get_user_by_id(user_id)
     
     for idx in range(len(yelp_list)):
         biz = yelp_list[idx]
+        yelp_id = biz["id"]
+        res = crud.get_restaurant_by_id(yelp_id)
+        like = crud.get_like(user, res)   
         biz_res = {
             "categories": biz["categories"][0]["title"],
             "name": biz["name"],
@@ -75,12 +81,12 @@ def get_restaurants_seach():
             "review_count": biz["review_count"],
             "price": biz["price"],
             "address": biz["location"]["display_address"],
-            "url": biz["url"]
+            "url": biz["url"],
+            "id": biz["id"],
+            "liked": like != None
         }
         biz_list.append(biz_res)
-
     return jsonify({"businesses" : biz_list})
-
 
 
 
