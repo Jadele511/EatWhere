@@ -13,12 +13,11 @@ function showRes() {
   $("#rating").html(`${resultYelp[resultIndex].rating}`);
   $("#review-count").html(`${resultYelp[resultIndex].review_count} reviews `);
   $("#price").html(`${resultYelp[resultIndex].price}`);
-  $("#categories").html(`${resultYelp[resultIndex].categories[0].title}`);
-  $("#address").html(`${resultYelp[resultIndex].location.display_address}`);
+  $("#categories").html(`${resultYelp[resultIndex].categories}`);
+  $("#address").html(`${resultYelp[resultIndex].address}`);
   $("#res-details").attr("href", `${resultYelp[resultIndex].url}`);
   $("#res-details").attr("style", "display: block");
-  // $("#thumbs-up").attr("href", `/like/${resultYelp[resultIndex].id}`)
-  
+  $("#thumbs-up").attr("style", "display: block");  
 }
 
 $("#nextBtn").on("click", () => {
@@ -28,8 +27,12 @@ $("#nextBtn").on("click", () => {
 });
 
 $("#thumbs-up").on("click", () => {
-  $.get(`/like/${resultYelp[resultIndex].id}`, () => {
-    // $("#thumbs-up").attr("style", "background-color: red");
+  $.get(`/like/${resultYelp[resultIndex].id}`, (res) => {
+    if (res.liked == true) {
+      $("#thumbs-up").attr("style", "background-color: red");
+    } else {
+      $("#thumbs-up").attr("style", "display: block");
+    }   
   })
 });
 
@@ -65,7 +68,7 @@ function getYelpRes() {
     resultYelp = res.businesses;
     showRes();
     $("#nextBtn").attr("style", "display: block");
-    $("#thumbs-up").attr("style", "display: block");
+    // $("#thumbs-up").attr("style", "display: block");
   });
 }
 

@@ -62,9 +62,24 @@ def get_restaurants_seach():
     yelp_res = YelpAPI(API_KEY).search_query(location=location, longitude=longitude, latitude=latitude, categories=categories,
                                              price=price, sort_by=sort_by, limit=5)
 
-    return jsonify(yelp_res)
+    yelp_list = yelp_res["businesses"]
+    biz_list = []
+    
+    for idx in range(len(yelp_list)):
+        biz = yelp_list[idx]
+        biz_res = {
+            "categories": biz["categories"][0]["title"],
+            "name": biz["name"],
+            "image_url": biz["image_url"],
+            "rating": biz["rating"],
+            "review_count": biz["review_count"],
+            "price": biz["price"],
+            "address": biz["location"]["display_address"],
+            "url": biz["url"]
+        }
+        biz_list.append(biz_res)
 
-    # create new objects and pass in fields we need from yelp. Add liked field from database to the new object
+    return jsonify({"businesses" : biz_list})
 
 
 
