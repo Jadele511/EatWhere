@@ -6,10 +6,7 @@ let long = 0;
 let lat = 0;
 
 
-
-function showRes() {
-  let biz = resultYelp[resultIndex];
-
+function showRes(biz) {
   $("#search-result>img").attr("src", `${biz.image_url}`);
   $("#res-name").html(`${biz.name}`);
   $("#rating").html(`${biz.rating}`);
@@ -19,24 +16,42 @@ function showRes() {
   $("#address").html(`${biz.address}`);
   $("#res-details").attr("href", `${biz.url}`);
   $("#res-details").attr("style", "display: block");
+}
 
+function showResList() {
+  let biz = resultYelp[resultIndex];
+  showRes(biz);  
   let color = biz.liked ? "darkblue" : "gray"  
-  $("#thumbs-up").attr("style", "display: block; color:" + color);  
+  $("#thumbs-up").attr("style", "display: inline; color:" + color);  
+  $("#resultBtn").attr("style", "display: inline;")
 }
 
 $("#nextBtn").on("click", () => {
   resultIndex++;
   resultIndex %= 5;
-  showRes();
+  showResList();
 });
 
 $("#thumbs-up").on("click", () => {
   let biz = resultYelp[resultIndex];
   $.get(`/like/${biz.id}`, (res) => {
     let color = res.liked ? "darkblue" : "gray"  
-    $("#thumbs-up").attr("style", "display: block; color:" + color); 
+    $("#thumbs-up").attr("style", "display: inline; color:" + color); 
   })
 });
+
+$("#resultBtn").on("click", () => {
+  // $("#search-result").attr("style", "display: none");
+  // $("#search-form").attr("style", "display: none");
+  $.get('/vote-result.json', (res) => {
+    $("#thumbs-up").attr("style", "display: none ");  
+    $("#resultBtn").attr("style", "display: none");
+    $("#nextBtn").attr("style", "display: none");
+    let biz = res;
+    $("#vote-result").attr("style", "display: block");
+    showRes(biz);
+  })  
+})
 
 
 if (navigator.geolocation) {
@@ -68,9 +83,8 @@ function getYelpRes() {
   $.get("/restaurants-search.json", formData, (res) => {
     // Display response from the server
     resultYelp = res.businesses;
-    showRes();
+    showResList();
     $("#nextBtn").attr("style", "display: block");
-    // $("#thumbs-up").attr("style", "display: block");
   });
 }
 

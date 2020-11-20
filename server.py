@@ -49,6 +49,21 @@ def homepage():
         return render_template("new_user.html")
 
 
+def restaurant_from_yelp(biz, like):
+    biz_res = {
+            "categories": biz["categories"][0]["title"],
+            "name": biz["name"],
+            "image_url": biz["image_url"],
+            "rating": biz["rating"],
+            "review_count": biz["review_count"],
+            "price": biz["price"],
+            "address": biz["location"]["display_address"],
+            "url": biz["url"],
+            "id": biz["id"],
+            "liked": like != None
+        }
+    return biz_res
+
 @app.route("/restaurants-search.json")
 def get_restaurants_seach():
     location = request.args.get('location')
@@ -87,16 +102,7 @@ def get_restaurants_seach():
         }
         biz_list.append(biz_res)
     return jsonify({"businesses" : biz_list})
-
-
-
-# @app.route("/restaurant-details.json")
-# def restaurant_details():
-
-#     yelp_res = YelpAPI(API_KEY).business_query(id='amys-ice-creams-austin-3')
-
-#     return jsonify(yelp_res)
-
+    
 
 @app.route('/new-user', methods=['POST'])
 def register_user():
@@ -191,6 +197,18 @@ def is_liked(yelp_id):
         crud.create_like(user, res)
 
     return jsonify({'liked' : like == None})
+
+
+@app.route('/vote-result.json')
+def vote_result():
+    res = crud.get_restaurant_with_most_likes()
+    yelp_id = res.yelp_id
+
+    yelp_res = YelpAPI(API_KEY).business_query(id=yelp_id)
+
+    res_detail = restaurant_from_yelp(yelp_res, like=None)
+
+    return jsonify(res_detail)
 
 
 if __name__ == '__main__':

@@ -80,7 +80,8 @@ def delete_like(like):
     db.session.commit()
 
 def get_restaurant_with_most_likes():
-    return Restaurant.query.filter(Like.yelp_id == Restaurant.yelp_id).join(Like, Restaurant.likes).order_by(Restaurant.likes).first()    
+    return Restaurant.query.filter(Like.yelp_id == Restaurant.yelp_id).join(Like, Restaurant.likes).order_by(Restaurant.likes).first()
+
 
 if __name__ == '__main__':
     from server import app

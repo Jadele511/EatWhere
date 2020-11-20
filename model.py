@@ -42,10 +42,11 @@ class Like(db.Model):
     __tablename__= 'likes'
 
     like_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    
     yelp_id = db.Column(db.String, db.ForeignKey('restaurants.yelp_id'))
-    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
-
     res = db.relationship('Restaurant', backref='likes')
+
+    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
     user = db.relationship('User', backref='likes')
 
     def __repr__(self):
