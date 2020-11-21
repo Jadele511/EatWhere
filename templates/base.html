@@ -20,28 +20,53 @@
       href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
     />
 
+    {% endblock %} {% block afterhead%}
+    <!-- Load our stylesheet -->
+    <link rel="stylesheet" href="/static/css/style.css" />
     {% endblock %}
-
-    {% block afterhead%}
-      <!-- Load our stylesheet -->
-      <link rel="stylesheet" href="/static/css/style.css" />
-    {% endblock %}
-
   </head>
   <body>
-    {% for msg in get_flashed_messages() %}
-    <p class="flash-msg">{{ msg }}</p>
-    {% endfor %}
-    
-    {% block body %}
-    {% endblock %} 
+    {% block before_body %}
+    <script>
+      // FACEBOOK Login
+      window.fbAsyncInit = function () {
+        FB.init({
+          appId: "390274278689671",
+          cookie: true,
+          xfbml: true,
+          version: "v9.0",
+        });
 
-    {% block after_body %}
+        FB.AppEvents.logPageView();
+      };
+
+      (function (d, s, id) {
+        var js,
+          fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) {
+          return;
+        }
+        js = d.createElement(s);
+        js.id = id;
+        js.src = "https://connect.facebook.net/en_US/sdk.js";
+        fjs.parentNode.insertBefore(js, fjs);
+      })(document, "script", "facebook-jssdk");
+    </script>
+    {% endblock %} {% for msg in get_flashed_messages() %}
+    <p class="flash-msg">{{ msg }}</p>
+    {% endfor %} {% block body %} {% endblock %} {% block after_body %}
+
     <script
-    src="https://code.jquery.com/jquery-3.5.1.js"
-    integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
-    crossorigin="anonymous"></script>
+      src="https://code.jquery.com/jquery-3.5.1.js"
+      integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+      crossorigin="anonymous"
+    ></script>
     <script src="/static/js/restaurant-result.js"></script>
+    <script>
+      FB.getLoginStatus(() => {
+        console.log("xcxc", res);
+      });
+    </script>
     {% endblock %}
   </body>
 </html>
