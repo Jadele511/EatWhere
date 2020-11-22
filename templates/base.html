@@ -62,11 +62,18 @@
       crossorigin="anonymous"
     ></script>
     <script src="/static/js/restaurant-result.js"></script>
-    <script>
+    <!-- <script>
       FB.getLoginStatus(() => {
         console.log("xcxc", res);
       });
-    </script>
+    </script> -->
+    
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC-cIjZK5uvPTwzwUBw6mJ7WdVRMLWWK8w&callback=initMap&libraries=&v=weekly"
+      defer
+    ></script>
+    
     {% endblock %}
   </body>
 </html>
