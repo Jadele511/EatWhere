@@ -7,6 +7,7 @@ let lat = 0;
 
 function initMap() {
   let biz = resultYelp[resultIndex];
+  console.log('xcxcxc', biz, resultYelp);
   const myLatLng = { lat: biz.lat, lng: biz.long };
   const map = new google.maps.Map(document.getElementById("google-map"), {
     zoom: 4,
@@ -19,7 +20,8 @@ function initMap() {
   });
 }
 
-function showRes(biz) {
+function showRes() {
+  let biz = resultYelp[resultIndex];
   initMap();
   $("#search-result>img").attr("src", `${biz.image_url}`);
   $("#res-name").html(`${biz.name}`);
@@ -30,20 +32,16 @@ function showRes(biz) {
   $("#address").html(`${biz.address}`);
   $("#res-details").attr("href", `${biz.url}`);
   $("#res-details").attr("style", "display: block");
-}
-
-function showResList() {
-  let biz = resultYelp[resultIndex];
-  showRes(biz);
   let color = biz.liked ? "darkblue" : "gray";
   $("#thumbs-up").attr("style", "display: inline; color:" + color);
   $("#resultBtn").attr("style", "display: inline;");
 }
 
+
 $("#nextBtn").on("click", () => {
   resultIndex++;
   resultIndex %= 5;
-  showResList();
+  showRes();
 });
 
 $("#thumbs-up").on("click", () => {
@@ -62,7 +60,7 @@ $("#resultBtn").on("click", () => {
     $("#nextBtn").attr("style", "display: none");
     let biz = res;
     $("#vote-result").attr("style", "display: block");
-    showRes(biz);
+    showRes();
   });
 });
 
@@ -95,7 +93,7 @@ function getYelpRes() {
   $.get("/restaurants-search.json", formData, (res) => {
     // Display response from the server
     resultYelp = res.businesses;
-    showResList();
+    showRes();
     $("#nextBtn").attr("style", "display: block");
   });
 }
