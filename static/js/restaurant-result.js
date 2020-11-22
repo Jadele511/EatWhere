@@ -2,27 +2,32 @@
 
 let resultIndex = 0;
 let resultYelp = [];
-let long = 0;
-let lat = 0;
+let userLong = 0;
+let userLat = 0;
+let map;
 
 function initMap() {
-  let biz = resultYelp[resultIndex];
-  console.log('xcxcxc', biz, resultYelp);
-  const myLatLng = { lat: biz.lat, lng: biz.long };
-  const map = new google.maps.Map(document.getElementById("google-map"), {
-    zoom: 4,
-    center: myLatLng,
+  map = new google.maps.Map(document.getElementById("google-map"), {
+    zoom: 14,
+    center: {lat: 0, lng: 0}
   });
-  new google.maps.Marker({
+}
+let resMarker;
+
+function restaurantMarker(biz) {
+  const myLatLng = { lat: biz.lat, lng: biz.long };  
+  resMarker = new google.maps.Marker({
     position: myLatLng,
     map,
     title: "Restaurant Location",
   });
+  map.setCenter(myLatLng);
 }
+
 
 function showRes() {
   let biz = resultYelp[resultIndex];
-  initMap();
+  restaurantMarker(biz);
   $("#search-result>img").attr("src", `${biz.image_url}`);
   $("#res-name").html(`${biz.name}`);
   $("#rating").html(`${biz.rating}`);
@@ -41,6 +46,7 @@ function showRes() {
 $("#nextBtn").on("click", () => {
   resultIndex++;
   resultIndex %= 5;
+  resMarker.setMap(null);
   showRes();
 });
 
@@ -71,8 +77,8 @@ if (navigator.geolocation) {
 }
 
 function processPosition(position) {
-  lat = position.coords.latitude;
-  long = position.coords.longitude;
+  userLat = position.coords.latitude;
+  userLong = position.coords.longitude;
   getYelpRes();
 }
 
@@ -86,8 +92,8 @@ function getYelpRes() {
 
   if (formData.location === "") {
     delete formData.location;
-    formData.longitude = long;
-    formData.latitude = lat;
+    formData.longitude = userLong;
+    formData.latitude = userLat;
   }
 
   $.get("/restaurants-search.json", formData, (res) => {
