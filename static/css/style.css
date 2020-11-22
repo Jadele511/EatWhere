@@ -8,3 +8,8 @@ body {
   position: relative;
   margin-bottom: 1rem;
 }
+
+
+#google-map {
+  height: 100%;
+}
