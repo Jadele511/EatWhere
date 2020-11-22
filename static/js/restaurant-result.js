@@ -107,6 +107,7 @@ function getYelpRes() {
 function onChange(evt) {
   evt.preventDefault();
   getYelpRes();
+  resMarker.setMap(null);
 }
 
 $("#search-location").on("change", onChange);
