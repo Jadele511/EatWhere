@@ -33,10 +33,9 @@ google = oauth.register(
     authorize_url='https://accounts.google.com/o/oauth2/auth',
     authorize_params=None,
     api_base_url='https://www.googleapis.com/oauth2/v1/',
-    # This is only needed if using openId to fetch user info
-    userinfo_endpoint='https://openidconnect.googleapis.com/v1/userinfo',
     client_kwargs={'scope': 'openid email profile'},
 )
+
 
 @app.route("/")
 def homepage():
@@ -51,18 +50,21 @@ def homepage():
 
 def restaurant_from_yelp(biz, like):
     biz_res = {
-            "categories": biz["categories"][0]["title"],
-            "name": biz["name"],
-            "image_url": biz["image_url"],
-            "rating": biz["rating"],
-            "review_count": biz["review_count"],
-            "price": biz["price"],
-            "address": biz["location"]["display_address"],
-            "url": biz["url"],
-            "id": biz["id"],
-            "liked": like != None
-        }
+        "categories": biz["categories"][0]["title"],
+        "name": biz["name"],
+        "image_url": biz["image_url"],
+        "rating": biz["rating"],
+        "review_count": biz["review_count"],
+        "price": biz["price"],
+        "address": biz["location"]["display_address"],
+        "url": biz["url"],
+        "id": biz["id"],
+        "liked": like != None,
+        "lat": biz["coordinates"]["latitude"],
+        "long": biz["coordinates"]["longitude"]
+    }
     return biz_res
+
 
 @app.route("/restaurants-search.json")
 def get_restaurants_seach():
@@ -72,7 +74,6 @@ def get_restaurants_seach():
     categories = request.args.get('categories')
     price = request.args.get('price')
     sort_by = request.args.get('sort_by')
-    
 
     yelp_res = YelpAPI(API_KEY).search_query(location=location, longitude=longitude, latitude=latitude, categories=categories,
                                              price=price, sort_by=sort_by, limit=5)
@@ -82,27 +83,17 @@ def get_restaurants_seach():
 
     user_id = session['user_id']
     user = crud.get_user_by_id(user_id)
-    
+
     for idx in range(len(yelp_list)):
         biz = yelp_list[idx]
         yelp_id = biz["id"]
         res = crud.get_restaurant_by_id(yelp_id)
-        like = crud.get_like(user, res)   
-        biz_res = {
-            "categories": biz["categories"][0]["title"],
-            "name": biz["name"],
-            "image_url": biz["image_url"],
-            "rating": biz["rating"],
-            "review_count": biz["review_count"],
-            "price": biz["price"],
-            "address": biz["location"]["display_address"],
-            "url": biz["url"],
-            "id": biz["id"],
-            "liked": like != None
-        }
+        like = crud.get_like(user, res)
+        biz_res = restaurant_from_yelp(biz, like)
         biz_list.append(biz_res)
-    return jsonify({"businesses" : biz_list})
-    
+
+    return jsonify({"businesses": biz_list})
+
 
 @app.route('/new-user', methods=['POST'])
 def register_user():
@@ -152,7 +143,7 @@ def login():
     return google.authorize_redirect(redirect_uri)
 
 
-@app.route('/authorize')
+@app.route('/google-authorize')
 def authorize():
     google = oauth.create_client('google')  # create the google oauth client
     # Access token from google (needed to get user info)
@@ -172,12 +163,16 @@ def authorize():
     return redirect('/')
 
 
+@app.route('/facebook-authorize')
+def fb_auth():
+    pass
+
+
 @app.route("/logout")
 def process_logout():
     for key in list(session.keys()):
         session.pop(key)
     return redirect('/')
-
 
 
 @app.route('/like/<yelp_id>')
@@ -196,7 +191,7 @@ def is_liked(yelp_id):
     else:
         crud.create_like(user, res)
 
-    return jsonify({'liked' : like == None})
+    return jsonify({'liked': like == None})
 
 
 @app.route('/vote-result.json')

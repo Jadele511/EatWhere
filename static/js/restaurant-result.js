@@ -5,8 +5,22 @@ let resultYelp = [];
 let long = 0;
 let lat = 0;
 
+function initMap() {
+  let biz = resultYelp[resultIndex];
+  const myLatLng = { lat: biz.lat, lng: biz.long };
+  const map = new google.maps.Map(document.getElementById("google-map"), {
+    zoom: 4,
+    center: myLatLng,
+  });
+  new google.maps.Marker({
+    position: myLatLng,
+    map,
+    title: "Restaurant Location",
+  });
+}
 
 function showRes(biz) {
+  initMap();
   $("#search-result>img").attr("src", `${biz.image_url}`);
   $("#res-name").html(`${biz.name}`);
   $("#rating").html(`${biz.rating}`);
@@ -20,10 +34,10 @@ function showRes(biz) {
 
 function showResList() {
   let biz = resultYelp[resultIndex];
-  showRes(biz);  
-  let color = biz.liked ? "darkblue" : "gray"  
-  $("#thumbs-up").attr("style", "display: inline; color:" + color);  
-  $("#resultBtn").attr("style", "display: inline;")
+  showRes(biz);
+  let color = biz.liked ? "darkblue" : "gray";
+  $("#thumbs-up").attr("style", "display: inline; color:" + color);
+  $("#resultBtn").attr("style", "display: inline;");
 }
 
 $("#nextBtn").on("click", () => {
@@ -35,24 +49,22 @@ $("#nextBtn").on("click", () => {
 $("#thumbs-up").on("click", () => {
   let biz = resultYelp[resultIndex];
   $.get(`/like/${biz.id}`, (res) => {
-    let color = res.liked ? "darkblue" : "gray"  
-    $("#thumbs-up").attr("style", "display: inline; color:" + color); 
-  })
+    let color = res.liked ? "darkblue" : "gray";
+    $("#thumbs-up").attr("style", "display: inline; color:" + color);
+  });
 });
 
 $("#resultBtn").on("click", () => {
-  // $("#search-result").attr("style", "display: none");
-  // $("#search-form").attr("style", "display: none");
-  $.get('/vote-result.json', (res) => {
-    $("#thumbs-up").attr("style", "display: none ");  
+
+  $.get("/vote-result.json", (res) => {
+    $("#thumbs-up").attr("style", "display: none ");
     $("#resultBtn").attr("style", "display: none");
     $("#nextBtn").attr("style", "display: none");
     let biz = res;
     $("#vote-result").attr("style", "display: block");
     showRes(biz);
-  })  
-})
-
+  });
+});
 
 if (navigator.geolocation) {
   navigator.geolocation.getCurrentPosition(processPosition);
@@ -90,9 +102,8 @@ function getYelpRes() {
 
 function onChange(evt) {
   evt.preventDefault();
-  getYelpRes();  
+  getYelpRes();
 }
-
 
 $("#search-location").on("change", onChange);
 $("#search-categories").on("change", onChange);
