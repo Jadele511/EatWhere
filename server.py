@@ -17,7 +17,6 @@ app.secret_key = os.environ['APP_SECRET_KEY']
 
 app.jinja_env.undefined = StrictUndefined
 app.config['SESSION_COOKIE_NAME'] = 'google-login-session'
-# app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=5)
 
 API_KEY = os.environ['YELP_KEY']
 
@@ -33,6 +32,7 @@ google = oauth.register(
     authorize_url='https://accounts.google.com/o/oauth2/auth',
     authorize_params=None,
     api_base_url='https://www.googleapis.com/oauth2/v1/',
+    userinfo_endpoint='https://openidconnect.googleapis.com/v1/userinfo', 
     client_kwargs={'scope': 'openid email profile'},
 )
 
@@ -146,9 +146,7 @@ def login():
 @app.route('/google-authorize')
 def authorize():
     google = oauth.create_client('google')  # create the google oauth client
-    # Access token from google (needed to get user info)
     token = google.authorize_access_token()
-    # userinfo contains stuff u specificed in the scope
     resp = google.get('userinfo')
     user_info = resp.json()
     user = oauth.google.userinfo()  # uses openid endpoint to fetch user info
