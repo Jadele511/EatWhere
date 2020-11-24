@@ -38,12 +38,12 @@ google = oauth.register(
 
 
 @app.route("/")
-def homepage():
+def index():
     """View homepage."""
 
     if 'user_id' in session:
 
-        return render_template("homepage.html")
+        return render_template("index.html")
     else:
         return render_template("new_user.html")
 
