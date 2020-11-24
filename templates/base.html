@@ -29,7 +29,13 @@
   </head>
   <body>
     {% block before_body %}
+    <!-- <script>
+      
+    </script>
     <script>
+      FB.getLoginStatus(() => {
+        console.log("xcxc", res);
+      });
       // FACEBOOK Login
       window.fbAsyncInit = function () {
         FB.init({
@@ -53,7 +59,7 @@
         js.src = "https://connect.facebook.net/en_US/sdk.js";
         fjs.parentNode.insertBefore(js, fjs);
       })(document, "script", "facebook-jssdk");
-    </script>
+    </script> -->
     {% endblock %} {% for msg in get_flashed_messages() %}
     <p class="flash-msg">{{ msg }}</p>
     {% endfor %} {% block body %} {% endblock %} {% block after_body %}
@@ -64,11 +70,7 @@
       crossorigin="anonymous"
     ></script>
     <script src="/static/js/restaurant-result.js"></script>
-    <!-- <script>
-      FB.getLoginStatus(() => {
-        console.log("xcxc", res);
-      });
-    </script> -->
+    
     
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
     <script

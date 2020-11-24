@@ -14,10 +14,9 @@ body {
   overflow: hidden;
 }
 
-.card-signin .card-title {
+#eatwhere-logo{
   margin-bottom: 2rem;
-  font-weight: 300;
-  font-size: 1.5rem;
+  width: 150px;
 }
 
 .card-signin .card-img-left {

@@ -22,12 +22,14 @@ function restaurantMarker(biz) {
     title: "Restaurant Location",
   });
   map.setCenter(myLatLng);
+  $("#google-map").attr("style", "display: block;")
 }
 
 
 function showRes() {
   let biz = resultYelp[resultIndex];
   restaurantMarker(biz);
+  // $("#search-result").fadeIn();
   $("#search-result>img").attr("src", `${biz.image_url}`);
   $("#res-name").html(`${biz.name}`);
   $("#rating").html(`${biz.rating}`);
