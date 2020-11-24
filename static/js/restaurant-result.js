@@ -27,8 +27,7 @@ function restaurantMarker(biz) {
 }
 
 
-function showRes() {
-  let biz = resultYelp[resultIndex];
+function showRes(biz) {  
   restaurantMarker(biz);
   $("#search-result").attr("style", "visibility:visible");
   $("#search-result>img").attr("src", `${biz.image_url}`);
@@ -38,7 +37,11 @@ function showRes() {
   $("#price").html(`${biz.price}`);
   $("#categories").html(`${biz.categories}`);
   $("#address").html(`${biz.address}`);
-  $("#res-details").attr("href", `${biz.url}`);
+  $("#res-details").attr("href", `${biz.url}`);  
+}
+
+function showResPlus(biz) {
+  showRes(biz);
   let color = biz.liked ? "darkblue" : "gray";
   $("#thumbs-up").attr("style", "display: inline; color:" + color);
   $("#resultBtn").attr("style", "display: inline;");
@@ -49,7 +52,8 @@ $("#nextBtn").on("click", () => {
   resultIndex++;
   resultIndex %= 5;
   resMarker.setMap(null);
-  showRes();
+  let biz = resultYelp[resultIndex];
+  showResPlus(biz);
 });
 
 $("#thumbs-up").on("click", () => {
@@ -66,9 +70,10 @@ $("#resultBtn").on("click", () => {
     $("#thumbs-up").attr("style", "visibility:hidden ");
     $("#resultBtn").attr("style", "visibility:hidden");
     $("#nextBtn").attr("style", "visibility:hidden");
+    resMarker.setMap(null);
     let biz = res;
     $("#vote-result").attr("style", "visibility:visible");
-    showRes();
+    showRes(biz);
   });
 });
 
@@ -101,7 +106,8 @@ function getYelpRes() {
   $.get("/restaurants-search.json", formData, (res) => {
     // Display response from the server
     resultYelp = res.businesses;
-    showRes();
+    let biz = resultYelp[resultIndex]
+    showResPlus(biz);
   });
 }
 
