@@ -5,6 +5,8 @@ let resultYelp = [];
 let userLong = 0;
 let userLat = 0;
 let map;
+let resMarker;
+
 
 function initMap() {
   map = new google.maps.Map(document.getElementById("google-map"), {
@@ -12,7 +14,6 @@ function initMap() {
     center: {lat: 0, lng: 0}
   });
 }
-let resMarker;
 
 function restaurantMarker(biz) {
   const myLatLng = { lat: biz.lat, lng: biz.long };  
@@ -22,14 +23,14 @@ function restaurantMarker(biz) {
     title: "Restaurant Location",
   });
   map.setCenter(myLatLng);
-  $("#google-map").attr("style", "display: block;")
+  $("#google-map").attr("style", "visibility:visible");
 }
 
 
 function showRes() {
   let biz = resultYelp[resultIndex];
   restaurantMarker(biz);
-  // $("#search-result").fadeIn();
+  $("#search-result").attr("style", "visibility:visible");
   $("#search-result>img").attr("src", `${biz.image_url}`);
   $("#res-name").html(`${biz.name}`);
   $("#rating").html(`${biz.rating}`);
@@ -38,7 +39,6 @@ function showRes() {
   $("#categories").html(`${biz.categories}`);
   $("#address").html(`${biz.address}`);
   $("#res-details").attr("href", `${biz.url}`);
-  $("#res-details").attr("style", "display: block");
   let color = biz.liked ? "darkblue" : "gray";
   $("#thumbs-up").attr("style", "display: inline; color:" + color);
   $("#resultBtn").attr("style", "display: inline;");
@@ -63,11 +63,11 @@ $("#thumbs-up").on("click", () => {
 $("#resultBtn").on("click", () => {
 
   $.get("/vote-result.json", (res) => {
-    $("#thumbs-up").attr("style", "display: none ");
-    $("#resultBtn").attr("style", "display: none");
-    $("#nextBtn").attr("style", "display: none");
+    $("#thumbs-up").attr("style", "visibility:hidden ");
+    $("#resultBtn").attr("style", "visibility:hidden");
+    $("#nextBtn").attr("style", "visibility:hidden");
     let biz = res;
-    $("#vote-result").attr("style", "display: block");
+    $("#vote-result").attr("style", "visibility:visible");
     showRes();
   });
 });
@@ -102,7 +102,6 @@ function getYelpRes() {
     // Display response from the server
     resultYelp = res.businesses;
     showRes();
-    $("#nextBtn").attr("style", "display: block");
   });
 }
 
