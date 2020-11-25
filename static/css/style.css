@@ -4,16 +4,23 @@ body {
   background: #f7c157;
 }
 
+#eatwhere-logo {
+  margin-bottom: none;
+  width: 50px;
+}
+
+.form-label-group {
+  position: relative;
+  margin-bottom: 0.5rem;
+}
+
+
 .loading {
   background: #f7c157 url("/static/images/bowl-loading.gif") center no-repeat;
   width: 500px;
   height: 500px;
 }
 
-.form-label-group {
-  position: relative;
-  margin-bottom: 1rem;
-}
 
 .card-signin {
   border: 0;
@@ -22,16 +29,12 @@ body {
   overflow: hidden;
 }
 
-#eatwhere-logo {
-  margin-bottom: none;
-  width: 50px;
-}
 
 .card-body {
-  padding: 2rem;
+  padding: 1rem;
 }
 
-.form-label-group {
-  position: relative;
-  margin-bottom: 0.5rem;
+
+#res-img {
+  height: 150px;
 }

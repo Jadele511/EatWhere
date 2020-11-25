@@ -37,7 +37,7 @@ function restaurantMarker(biz) {
 
 function showRes(biz) {
   restaurantMarker(biz);
-  $("#search-result>img").attr("src", `${biz.image_url}`);
+  $("#res-img").attr("src", `${biz.image_url}`);
   $("#res-name").html(`${biz.name}`);
   $("#rating").html(`${biz.rating}`);
   $("#review-count").html(`${biz.review_count} reviews `);
