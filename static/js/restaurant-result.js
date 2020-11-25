@@ -7,16 +7,16 @@ let userLat = 0;
 let map;
 let resMarker;
 
-
 $(document).on({
-  ajaxStart: function(){
-      $("body").addClass("loading"); 
+  ajaxStart: function () {
+    $("#search-result").hide();
+    $(".loading").show();
   },
-  ajaxStop: function(){ 
-      $("body").removeClass("loading"); 
-  }    
+  ajaxStop: function () {
+    $(".loading").hide();
+    $("#search-result").show();
+  },
 });
-
 
 function initMap() {
   map = new google.maps.Map(document.getElementById("google-map"), {
@@ -33,12 +33,10 @@ function restaurantMarker(biz) {
     title: "Restaurant Location",
   });
   map.setCenter(myLatLng);
-  $("#google-map").attr("style", "visibility:visible");
 }
 
 function showRes(biz) {
   restaurantMarker(biz);
-  $("#search-result").attr("style", "visibility:visible");
   $("#search-result>img").attr("src", `${biz.image_url}`);
   $("#res-name").html(`${biz.name}`);
   $("#rating").html(`${biz.rating}`);
@@ -123,6 +121,8 @@ function onChange(evt) {
   getYelpRes();
   resMarker.setMap(null);
 }
+
+// $("#search-result").addClass("loading")
 
 $("#search-location").on("change", onChange);
 $("#search-categories").on("change", onChange);

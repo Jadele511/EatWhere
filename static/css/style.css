@@ -5,17 +5,14 @@ body {
 }
 
 .loading {
-  background:#f7c157 url("/static/images/bowl-loading.gif") center no-repeat;
+  background: #f7c157 url("/static/images/bowl-loading.gif") center no-repeat;
+  width: 500px;
+  height: 500px;
 }
 
 .form-label-group {
   position: relative;
   margin-bottom: 1rem;
-}
-
-
-body {
-  background: #f7c157;
 }
 
 .card-signin {
@@ -29,7 +26,6 @@ body {
   margin-bottom: none;
   width: 50px;
 }
-
 
 .card-body {
   padding: 2rem;

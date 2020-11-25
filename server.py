@@ -9,7 +9,6 @@ from jinja2 import StrictUndefined
 from yelpapi import YelpAPI
 import requests
 from authlib.integrations.flask_client import OAuth
-from datetime import timedelta
 
 
 app = Flask(__name__)
@@ -32,7 +31,7 @@ google = oauth.register(
     authorize_url='https://accounts.google.com/o/oauth2/auth',
     authorize_params=None,
     api_base_url='https://www.googleapis.com/oauth2/v1/',
-    userinfo_endpoint='https://openidconnect.googleapis.com/v1/userinfo', 
+    userinfo_endpoint='https://openidconnect.googleapis.com/v1/userinfo',
     client_kwargs={'scope': 'openid email profile'},
 )
 
