@@ -4,6 +4,10 @@ body {
   background: #f7c157;
 }
 
+.loading {
+  background:#f7c157 url("/static/images/bowl-loading.gif") center no-repeat;
+}
+
 .form-label-group {
   position: relative;
   margin-bottom: 1rem;
