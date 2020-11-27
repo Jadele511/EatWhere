@@ -87,7 +87,8 @@ def get_restaurants_seach():
         biz = yelp_list[idx]
         yelp_id = biz["id"]
         res = crud.get_restaurant_by_id(yelp_id)
-        like = crud.get_like(user, res)
+        group_name = request.cookies["group_name"]
+        like = crud.get_like(user, res, group_name)
         biz_res = restaurant_from_yelp(biz, like)
         biz_list.append(biz_res)
 
@@ -177,24 +178,25 @@ def is_liked(yelp_id):
     user_id = session['user_id']
     user = crud.get_user_by_id(user_id)
     res = crud.get_restaurant_by_id(yelp_id)
+    group_name = request.cookies["group_name"]
     if not res:
         crud.create_restaurant(yelp_id)
         res = crud.get_restaurant_by_id(yelp_id)
 
-    like = crud.get_like(user, res)
+    like = crud.get_like(user, res, group_name)
 
     if like:
         crud.delete_like(like)
     else:
-        crud.create_like(user, res)
+        crud.create_like(user, res, group_name)
 
     return jsonify({'liked': like == None})
 
 
 @app.route('/vote-result.json')
 def vote_result():
-    res = crud.get_restaurant_with_most_likes()
-    yelp_id = res.yelp_id
+    group_name = request.cookies["group_name"]
+    yelp_id = crud.get_restaurant_with_most_likes(group_name)[0]
 
     yelp_res = YelpAPI(API_KEY).business_query(id=yelp_id)
 

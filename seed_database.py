@@ -13,11 +13,3 @@ os.system('createdb eatwhere')
 
 model.connect_to_db(server.app)
 model.db.create_all()
-
-
-# for n in range(10):
-#     # user_name = f'test{n}'
-#     email = f'user{n}@test.com'
-#     password = 'test'
-
-#     user = crud.create_user(email, password)
