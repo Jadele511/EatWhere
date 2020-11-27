@@ -128,3 +128,12 @@ $("#search-location").on("change", onChange);
 $("#search-categories").on("change", onChange);
 $("#search-price").on("change", onChange);
 $("#search-sort-by").on("change", onChange);
+
+
+
+$("#group_name").on("click", () => {
+  let group_name = null;
+  while (!group_name)
+      group_name = prompt("Please enter your group: ")
+  console.log(group_name)
+})
