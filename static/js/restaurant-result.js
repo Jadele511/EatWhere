@@ -132,8 +132,7 @@ $("#search-sort-by").on("change", onChange);
 
 
 $("#group_name").on("click", () => {
-  let group_name = null;
-  while (!group_name)
-      group_name = prompt("Please enter your group: ")
-  console.log(group_name)
+  let group_name = prompt("Please enter your group: ")
+  document.cookie = "group_name=" + group_name;
+  $("#group_name").html(`You are in ${group_name} group`)
 })
