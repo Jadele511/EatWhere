@@ -47,7 +47,7 @@ def index():
         return render_template("new_user.html")
 
 
-def restaurant_from_yelp(biz, like):
+def restaurant_from_yelp(biz, like, like_count=0):
     biz_res = {
         "categories": biz["categories"][0]["title"],
         "name": biz["name"],
@@ -59,6 +59,7 @@ def restaurant_from_yelp(biz, like):
         "url": biz["url"],
         "id": biz["id"],
         "liked": like != None,
+        "like_count": like_count,
         "lat": biz["coordinates"]["latitude"],
         "long": biz["coordinates"]["longitude"]
     }
@@ -89,7 +90,7 @@ def get_restaurants_seach():
         res = crud.get_restaurant_by_id(yelp_id)
         group_name = request.cookies["group_name"]
         like = crud.get_like(user, res, group_name)
-        biz_res = restaurant_from_yelp(biz, like)
+        biz_res = restaurant_from_yelp(biz, like, like_count=0)
         biz_list.append(biz_res)
 
     return jsonify({"businesses": biz_list})
@@ -196,11 +197,12 @@ def is_liked(yelp_id):
 @app.route('/vote-result.json')
 def vote_result():
     group_name = request.cookies["group_name"]
-    yelp_id = crud.get_restaurant_with_most_likes(group_name)[0]
+    res = crud.get_restaurant_with_most_likes(group_name)
+    yelp_id = res[0]
+    like_count = res[1]
 
     yelp_res = YelpAPI(API_KEY).business_query(id=yelp_id)
-
-    res_detail = restaurant_from_yelp(yelp_res, like=None)
+    res_detail = restaurant_from_yelp(yelp_res, None, like_count)
 
     return jsonify(res_detail)
 

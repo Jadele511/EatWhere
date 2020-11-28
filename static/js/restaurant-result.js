@@ -77,7 +77,7 @@ $("#resultBtn").on("click", () => {
     $("#nextBtn").attr("style", "visibility:hidden");
     resMarker.setMap(null);
     let biz = res;
-    $("#vote-result").attr("style", "visibility:visible");
+    $("#vote-result").html(`And the restaurant with most likes (${biz.like_count} likes) is: `);
     showRes(biz);
   });
 });
@@ -122,7 +122,6 @@ function onChange(evt) {
   resMarker.setMap(null);
 }
 
-// $("#search-result").addClass("loading")
 
 $("#search-location").on("change", onChange);
 $("#search-categories").on("change", onChange);
