@@ -6,14 +6,16 @@ let userLong = 0;
 let userLat = 0;
 let map;
 let resMarker;
+let group_name;
 
-const group_name = document.cookie
+if (group_name) {
+  group_name = document.cookie
   .split('; ')
   .find(row => row.startsWith('group_name'))
   .split('=')[1];
-
-if (group_name) {
   $("#group-name").html(`You are in ${group_name} group`)
+} else {
+  $("#group-name").html(`Create your group`)
 }
 
 $(document).on({
@@ -61,7 +63,7 @@ function showResPlus(biz) {
   let color = biz.liked ? "darkblue" : "gray";
   $("#thumbs-up").attr("style", "visibility: visible; color:" + color);
   $("#resultBtn").attr("style", "visibility: visible;");
-  $("#resultBtn").html(`Like result in ${group_name} group`)
+  $("#resultBtn").html(`Your group result`)
 }
 
 $("#nextBtn").on("click", () => {
