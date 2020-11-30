@@ -7,6 +7,15 @@ let userLat = 0;
 let map;
 let resMarker;
 
+const group_name = document.cookie
+  .split('; ')
+  .find(row => row.startsWith('group_name'))
+  .split('=')[1];
+
+if (group_name) {
+  $("#group_name").html(`You are in ${group_name} group`)
+}
+
 $(document).on({
   ajaxStart: function () {
     $("#search-result").hide();
