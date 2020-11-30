@@ -13,7 +13,7 @@ const group_name = document.cookie
   .split('=')[1];
 
 if (group_name) {
-  $("#group_name").html(`You are in ${group_name} group`)
+  $("#group-name").html(`You are in ${group_name} group`)
 }
 
 $(document).on({
@@ -61,7 +61,7 @@ function showResPlus(biz) {
   let color = biz.liked ? "darkblue" : "gray";
   $("#thumbs-up").attr("style", "visibility: visible; color:" + color);
   $("#resultBtn").attr("style", "visibility: visible;");
-  $("#resultBtn").html(`Vote result in ${group_name} group`)
+  $("#resultBtn").html(`Like result in ${group_name} group`)
 }
 
 $("#nextBtn").on("click", () => {
@@ -76,20 +76,22 @@ $("#thumbs-up").on("click", () => {
   let biz = resultYelp[resultIndex];
   $.get(`/like/${biz.id}`, (res) => {
     let color = res.liked ? "darkblue" : "gray";
-    $("#thumbs-up").attr("style", "display: block; color:" + color);
+    $("#thumbs-up").attr("style", "color:" + color);
   });
 });
 
 $("#resultBtn").on("click", () => {
   $.get("/vote-result.json", (res) => {
-    $("#thumbs-up").attr("style", "visibility:hidden ");
-    $("#nextBtn").attr("style", "visibility:hidden");
-    $("#resultBtn").attr("style", "visibility:hidden");
+    $("#search-form").attr("style", "display:none");
+    $("#thumbs-up").attr("style", "display:none");
+    $("#nextBtn").attr("style", "display:none");
+    $("#resultBtn").attr("style", "display:none"); 
 
     resMarker.setMap(null);
     let biz = res;
     $("#vote-result").html(`And the restaurant with most likes (${biz.like_count} likes) is: `);
     showRes(biz);
+    $("#backToHomepage").attr("style", "visibility:visible"); 
   });
 });
 
@@ -141,8 +143,8 @@ $("#search-sort-by").on("change", onChange);
 
 
 
-$("#group_name").on("click", () => {
+$("#group-name").on("click", () => {
   let group_name = prompt("Please enter your group: ")
   document.cookie = "group_name=" + group_name;
-  $("#group_name").html(`You are in ${group_name} group`)
+  $("#group-name").html(`You are in ${group_name} group`)
 })

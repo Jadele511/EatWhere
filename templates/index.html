@@ -5,10 +5,10 @@
   <a class="navbar-brand" href="/">
     <img src="/static/images/eatwhere-logo.png" id="eatwhere-logo" />
   </a>
-  <a class="btn navbar-btn btn-success ml-auto" role="button" href="#" id="group_name"
+  <a class="btn navbar-btn text-uppercase ml-auto" role="button" href="#" id="group-name"
     >Create a group vote</a
   >
-  <a class="btn navbar-btn btn-danger ml-auto" role="button" href="/logout"
+  <a class="btn navbar-btn text-uppercase ml-auto" role="button" href="/logout" id="logout"
     >Logout</a
   >
 </nav>
@@ -100,13 +100,15 @@
               >Restaurant details on Yelp</a
             >
             <div class="form-label-group">
-              <button id="thumbs-up"><i class="fa fa-thumbs-up" class="pull-left"></i></button>
-              <button type="button" id="nextBtn" class="pull-right">Next restaurant</button>
+              <button id="thumbs-up"><i class="fa fa-thumbs-up pull-left"></i></button>
+              <button id="nextBtn" class="btn btn-outline-dark text-uppercase pull-right">Next restaurant</button>
+            </div>
+            <div >
+              <button id="resultBtn" class="btn btn-block  text-uppercase"></button>
             </div>
             <div class="form-label-group">
-              <button id="resultBtn"></button>
+              <a id="backToHomepage" role="button" href="/" style="display:none" class="btn btn-outline-dark btn-block text-uppercase ">Back to homepage</a>
             </div>
-
           </div>
         </div>
       </div>

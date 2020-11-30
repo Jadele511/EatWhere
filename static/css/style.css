@@ -9,6 +9,23 @@ body {
   width: 50px;
 }
 
+#group-name {
+  background-color: #bbcf81;
+}
+
+#logout {
+  background-color: #A02A28;
+}
+
+.btn {
+  font-size: 80%;
+  border-radius: 5rem;
+  letter-spacing: 0.1rem;
+  font-weight: bold;
+  padding: 0.5rem;
+  transition: all 0.2s;
+}
+
 .form-label-group {
   position: relative;
   margin-bottom: 0.5rem;
@@ -49,11 +66,23 @@ body {
   width: 60%;
 }
 
-#nextBtn {
-  width: fit-content;
+#thumbs-up {
+  border-radius: 5rem;
+  padding: 0.5rem;
+  size: 5rem;
 }
+
 
 #resultBtn {
   display: block;
   margin: 0 auto;
+  width: 100%;
+  background-color: #bbcf81;
+}
+
+#backToHomepage{
+  display: block;
+  margin: 0 auto;
+  width: 100%;
+  background-color: #bbcf81;
 }
