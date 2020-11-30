@@ -48,9 +48,9 @@ function showRes(biz) {
   restaurantMarker(biz);
   $("#res-img").attr("src", `${biz.image_url}`);
   $("#res-name").html(`${biz.name}`);
-  $("#rating").html(`${biz.rating}`);
+  $("#rating").html(`${biz.rating} star rating ` );
   $("#review-count").html(`${biz.review_count} reviews `);
-  $("#price").html(`${biz.price}`);
+  $("#price").html(`Price range:${biz.price} `);
   $("#categories").html(`${biz.categories}`);
   $("#address").html(`${biz.address}`);
   $("#res-details").attr("href", `${biz.url}`);
@@ -59,8 +59,9 @@ function showRes(biz) {
 function showResPlus(biz) {
   showRes(biz);
   let color = biz.liked ? "darkblue" : "gray";
-  $("#thumbs-up").attr("style", "display: inline; color:" + color);
-  $("#resultBtn").attr("style", "display: inline;");
+  $("#thumbs-up").attr("style", "visibility: visible; color:" + color);
+  $("#resultBtn").attr("style", "visibility: visible;");
+  $("#resultBtn").html(`Vote result in ${group_name} group`)
 }
 
 $("#nextBtn").on("click", () => {
@@ -75,15 +76,16 @@ $("#thumbs-up").on("click", () => {
   let biz = resultYelp[resultIndex];
   $.get(`/like/${biz.id}`, (res) => {
     let color = res.liked ? "darkblue" : "gray";
-    $("#thumbs-up").attr("style", "display: inline; color:" + color);
+    $("#thumbs-up").attr("style", "display: block; color:" + color);
   });
 });
 
 $("#resultBtn").on("click", () => {
   $.get("/vote-result.json", (res) => {
     $("#thumbs-up").attr("style", "visibility:hidden ");
-    $("#resultBtn").attr("style", "visibility:hidden");
     $("#nextBtn").attr("style", "visibility:hidden");
+    $("#resultBtn").attr("style", "visibility:hidden");
+
     resMarker.setMap(null);
     let biz = res;
     $("#vote-result").html(`And the restaurant with most likes (${biz.like_count} likes) is: `);

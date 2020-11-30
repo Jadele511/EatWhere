@@ -87,17 +87,26 @@
           <div class="card-body col-8">
             <img id="res-img" src="" class="col-4"  />
             <h2 id="res-name"></h2>
-            <p id="rating"></p>
-            <p id="review-count"></p>
-            <p id="price"></p>
-            <p id="categories"></p>
+            <div>
+              <p id="rating" class="pull-left"></p>
+              <p id="review-count" class="pull-right"></p>
+            </div>
+            <div>
+              <p id="price" class="pull-left"></p>
+              <p id="categories" class="pull-right"></p>
+            </div>
             <p id="address"></p>
-            <a id="res-details" type="button" href=""
+            <a id="res-details" type="button" href="" class="form-label-group"
               >Restaurant details on Yelp</a
             >
-            <button id="thumbs-up"><i class="fa fa-thumbs-up"></i></button>
-            <button id="resultBtn">View vote result</button>
-            <button type="button" id="nextBtn">Next</button>
+            <div class="form-label-group">
+              <button id="thumbs-up"><i class="fa fa-thumbs-up" class="pull-left"></i></button>
+              <button type="button" id="nextBtn" class="pull-right">Next restaurant</button>
+            </div>
+            <div class="form-label-group">
+              <button id="resultBtn"></button>
+            </div>
+
           </div>
         </div>
       </div>
