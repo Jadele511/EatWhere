@@ -6,7 +6,7 @@ let userLong = 0;
 let userLat = 0;
 let map;
 let resMarker;
-let group_name;
+let group_name = document.cookie
 
 if (group_name) {
   group_name = document.cookie
@@ -15,7 +15,7 @@ if (group_name) {
   .split('=')[1];
   $("#group-name").html(`You are in ${group_name} group`)
 } else {
-  $("#group-name").html(`Create your group`)
+  $("#group-name").html("Create your group")
 }
 
 $(document).on({
