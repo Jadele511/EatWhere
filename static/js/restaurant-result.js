@@ -48,7 +48,9 @@ function restaurantMarker(biz) {
 
 function showRes(biz) {
   restaurantMarker(biz);
-  $("#res-img").attr("src", `${biz.image_url}`);
+  $("#res-img1").attr("src", `${biz.photos[0]}`);
+  $("#res-img2").attr("src", `${biz.photos[1]}`);
+  $("#res-img3").attr("src", `${biz.photos[2]}`);
   $("#res-name").html(`${biz.name}`);
   $("#rating").html(`${biz.rating} star rating ` );
   $("#review-count").html(`${biz.review_count} reviews `);

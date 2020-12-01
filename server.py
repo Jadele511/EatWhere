@@ -51,7 +51,7 @@ def restaurant_from_yelp(biz, like, like_count=0):
     biz_res = {
         "categories": biz["categories"][0]["title"],
         "name": biz["name"],
-        "image_url": biz["image_url"],
+        "photos": biz["photos"],
         "rating": biz["rating"],
         "review_count": biz["review_count"],
         "price": biz["price"],
@@ -75,8 +75,7 @@ def get_restaurants_seach():
     price = request.args.get('price')
     sort_by = request.args.get('sort_by')
 
-    yelp_res = YelpAPI(API_KEY).search_query(location=location, longitude=longitude, latitude=latitude, categories=categories,
-                                             price=price, sort_by=sort_by, limit=5)
+    yelp_res = YelpAPI(API_KEY).search_query(location=location, longitude=longitude, latitude=latitude, categories=categories,price=price, sort_by=sort_by, limit=5)
 
     yelp_list = yelp_res["businesses"]
     biz_list = []
@@ -85,12 +84,13 @@ def get_restaurants_seach():
     user = crud.get_user_by_id(user_id)
 
     for idx in range(len(yelp_list)):
-        biz = yelp_list[idx]
-        yelp_id = biz["id"]
+        yelp_id = yelp_list[idx]["id"]
         res = crud.get_restaurant_by_id(yelp_id)
         group_name = request.cookies["group_name"]
         like = crud.get_like(user, res, group_name)
+        biz = YelpAPI(API_KEY).business_query(id=yelp_id)
         biz_res = restaurant_from_yelp(biz, like, like_count=0)
+
         biz_list.append(biz_res)
 
     return jsonify({"businesses": biz_list})
@@ -205,7 +205,6 @@ def vote_result():
     res_detail = restaurant_from_yelp(yelp_res, None, like_count)
 
     return jsonify(res_detail)
-
 
 if __name__ == '__main__':
     connect_to_db(app)
