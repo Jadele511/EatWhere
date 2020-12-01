@@ -54,15 +54,16 @@ function showRes(biz) {
   $("#res-name").html(`${biz.name}`);
   $("#rating").html(`${biz.rating} star rating ` );
   $("#review-count").html(`${biz.review_count} reviews `);
-  $("#price").html(`Price range:${biz.price} `);
+  $("#price").html(`Price range: ${biz.price} `);
   $("#categories").html(`${biz.categories}`);
-  $("#address").html(`${biz.address}`);
+  $("#address").addClass("fa fa-map-marker");
+  $("#address").html(` ${biz.address}`);
   $("#res-details").attr("href", `${biz.url}`);
 }
 
 function showResPlus(biz) {
   showRes(biz);
-  let color = biz.liked ? "darkblue" : "gray";
+  let color = biz.liked ? "#e55e5b" : "gray";
   $("#thumbs-up").attr("style", "visibility: visible; color:" + color);
   $("#resultBtn").attr("style", "visibility: visible;");
   $("#resultBtn").html(`Your group result`)
@@ -79,7 +80,7 @@ $("#nextBtn").on("click", () => {
 $("#thumbs-up").on("click", () => {
   let biz = resultYelp[resultIndex];
   $.get(`/like/${biz.id}`, (res) => {
-    let color = res.liked ? "darkblue" : "gray";
+    let color = res.liked ? "#e55e5b" : "gray";
     $("#thumbs-up").attr("style", "color:" + color);
   });
 });

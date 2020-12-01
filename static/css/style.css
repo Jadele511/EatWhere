@@ -4,6 +4,11 @@ body {
   background: #f7c157;
 }
 
+.navbar {
+  background-color: #FCF4DF;
+  padding: 0px 12px 0px 12px;
+}
+
 #eatwhere-logo {
   margin-bottom: none;
   width: 50px;
@@ -35,7 +40,7 @@ body {
   padding: 0.5rem;
 }
 
-.form-label-group input {
+.input{
   height: auto;
   border-radius: 2rem;
 }
@@ -53,6 +58,7 @@ body {
   border-radius: 1rem;
   box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.1);
   overflow: hidden;
+  font-family:: Arial;
 }
 
 
@@ -62,7 +68,7 @@ body {
 
 
 #res-img {
-  height: 150px;
+  height: 120px;
 }
 
 .pull-left {
@@ -73,6 +79,12 @@ body {
 .pull-right {
   float:right;
   width: 60%;
+}
+
+#res-details{
+  color: black;
+  text-decoration:underline;
+  text-decoration-style: 1px dotted #000;
 }
 
 #thumbs-up {

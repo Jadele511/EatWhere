@@ -1,7 +1,7 @@
 {% extends 'base.html' %} {% block title %}Restaurant search{% endblock %}
 {%block body %}
 
-<nav class="navbar navbar-light bg-light">
+<nav class="navbar navbar-light">
   <a class="navbar-brand" href="/">
     <img src="/static/images/eatwhere-logo.png" id="eatwhere-logo" />
   </a>
@@ -25,7 +25,7 @@
                 <div class="col-lg-3 col-md-3 col-sm-12 p-0 form-label-group">
                   <input
                     id="search-location"
-                    class="form-control"
+                    class="form-control input"
                     type="text"
                     name="location"
                     required
@@ -36,7 +36,7 @@
                 <div class="col-lg-3 col-md-3 col-sm-12 p-0 form-label-group">
                   <input
                     id="search-categories"
-                    class="form-control"
+                    class="form-control input"
                     type="text"
                     name="categories"
                     placeholder="Enter food type"
@@ -45,7 +45,7 @@
                 <div class="col-lg-3 col-md-3 col-sm-12 p-0 form-label-group">
                   <select
                     id="search-price"
-                    class="form-control custom-select"
+                    class="form-control input"
                     name="price"
                   >
                     <option value="1">$</option>
@@ -58,7 +58,7 @@
                 <div class="col-lg-3 col-md-3 col-sm-12 p-0 form-label-group">
                   <select
                     id="search-sort-by"
-                    class="form-control custom-select"
+                    class="form-control input"
                     name="sort_by"
                   >
                     <option value="best_match">Best Match</option>
@@ -81,8 +81,10 @@
       <div class="col-lg-10 col-xl-9 mx-auto">
         <div class="loading col-lg-10 col-xl-9 mx-auto card-signin my-5">&nbsp;</div>
           <div class="col" id="search-result" style="display: none">
+            <h2>&nbsp;</h2>
             <h2 id="vote-result"></h2>
-            <div class="card card-signin flex-row my-5">
+            <h2>&nbsp;</h2>
+            <div class="card card-signin flex-row ">
               <div class="d-md-flex col-4" id="google-map"></div>
 
               <div class="card-body col-8">
@@ -91,6 +93,7 @@
                   <img id="res-img2" src="" class="col-4"  />
                   <img id="res-img3" src="" class="col-4"  />
                 </div>
+                <h5>&nbsp;</h5>
                 <h2 id="res-name"></h2>
                 <div>
                   <p id="rating" class="pull-left"></p>
@@ -100,20 +103,18 @@
                   <p id="price" class="pull-left"></p>
                   <p id="categories" class="pull-right"></p>
                 </div>
-                <p id="address"></p>
+                <p id="address"><i></i> </p>
                 <a id="res-details" type="button" href="" class="form-label-group"
-                  >Restaurant details on Yelp</a>
+                  ><i class="fa fa-laptop"></i> Restaurant details on Yelp</a>
                 
                 <div class="form-label-group">
                   <button id="thumbs-up"><i class="fa fa-thumbs-up pull-left"></i></button>
                   <button id="nextBtn" class="btn btn-outline-dark text-uppercase pull-right">Next restaurant</button>
                 </div>
                 <div >
-                  <button id="resultBtn" class="btn text-uppercase"></button>
+                  <button id="resultBtn" class="btn text-uppercase "></button>
                 </div>
-                <div class="form-label-group">
-                  <a id="backToHomepage" role="button" href="/" style="display:none" class="btn btn-outline-dark btn-block text-uppercase ">Back to homepage</a>
-                </div>
+                <a id="backToHomepage" role="button" href="/" style="display:none" class="btn btn-block text-uppercase form-label-group ">Back to homepage</a>
               </div>
             </div>
           </div>
