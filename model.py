@@ -45,29 +45,6 @@ class Like(db.Model):
         return f"<Like like_id={self.like_id} group_name={self.group_name}>"
 
 
-def example_data():
-    """Create some sample data."""
-  
-    Like.query.delete()
-    User.query.delete()
-    Restaurant.query.delete()
-  
-
-    user1 = User(email="user1@email.com", password="1234")
-    user2 = User(email="user2@email.com", password="abcd")
-
-    res1 = Restaurant(yelp_id="WavvLdfdP6g8aZTtbBQHTw")
-    res2 = Restaurant(yelp_id="E8RJkjfdcwgtyoPMjQ_Olg")
-
-    like1 = Like(user=user1, res=res1, group_name='test1')
-    like2 = Like(user=user1, res=res1, group_name='test2')
-
-
-    db.session.add_all([user1, user2, res1, res2, like1, like2])
-    db.session.commit()
-
-
-
 def connect_to_db(flask_app, db_uri='postgresql:///eatwhere', echo=True):
     flask_app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
     flask_app.config['SQLALCHEMY_ECHO'] = echo
