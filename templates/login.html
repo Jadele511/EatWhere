@@ -30,7 +30,11 @@
                 <input type="password" id="password" name="login-password" class="form-control" placeholder="Password" required>
               </div>              
               <button class="btn btn-lg btn-block text-uppercase" id="register-btn" type="submit">Sign In</button>
-              <a class="d-block text-center mt-2 small" href="/">Create your account</a>
+              {% for msg in get_flashed_messages() %}
+                <p class="flash-msg alert alert-danger btn btn-lg btn-block">{{ msg }}</p>
+              {% endfor %}
+              <a class="d-block text-center mt-2 " href="/">Create your account</a>
+                
             </form>
           </div>
         </div>

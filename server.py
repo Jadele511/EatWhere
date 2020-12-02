@@ -133,6 +133,7 @@ def user_login():
         session['user_id'] = user.user_id
     else:
         flash("Your email and password do not match")
+        return render_template('login.html')
 
     return redirect('/')
 
