@@ -56,8 +56,7 @@ function showRes(biz) {
   $("#review-count").html(`${biz.review_count} reviews `);
   $("#price").html(`Price range: ${biz.price} `);
   $("#categories").html(`${biz.categories}`);
-  $("#address").addClass("fa fa-map-marker");
-  $("#address").html(` ${biz.address}`);
+  $("#address").html(`<i class= "fa fa-map-marker"></i> ${biz.address}`);
   $("#res-details").attr("href", `${biz.url}`);
 }
 
