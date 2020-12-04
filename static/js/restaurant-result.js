@@ -101,9 +101,14 @@ $("#resultBtn").on("click", () => {
 
     resMarker.setMap(null);
     let biz = res;
-    $("#vote-result").html(`And the restaurant with most likes (${biz.like_count} likes) is: `);
-    showRes(biz);
-    $("#backToHomepage").attr("style", "visibility:visible"); 
+    $("#vote-result").html(`And the restaurant with most likes (total ${biz.like_count} likes) is: `);
+    $("#prev-search-result").attr("style", "visibility:hidden");
+    setTimeout(() => {
+      showRes(biz)
+      $("#prev-search-result").attr("style", "visibility:visible");
+      $("#backToHomepage").attr("style", "visibility:visible"); 
+    }, 
+      2000);    
   });
 });
 
