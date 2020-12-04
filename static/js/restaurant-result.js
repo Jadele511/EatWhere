@@ -76,6 +76,13 @@ $("#nextBtn").on("click", () => {
   let biz = resultYelp[resultIndex];
   showResPlus(biz);
 });
+$("#prevBtn").on("click", () => {
+  if (resultIndex > 0) {resultIndex--}
+  resultIndex %= 5;
+  resMarker.setMap(null);
+  let biz = resultYelp[resultIndex];
+  showResPlus(biz);
+});
 
 $("#thumbs-up").on("click", () => {
   let biz = resultYelp[resultIndex];
@@ -90,6 +97,7 @@ $("#resultBtn").on("click", () => {
     $("#search-form").attr("style", "display:none");
     $("#thumbs-up").attr("style", "display:none");
     $("#nextBtn").attr("style", "display:none");
+    $("#prevBtn").attr("style", "display:none");
     $("#resultBtn").attr("style", "display:none"); 
 
     resMarker.setMap(null);

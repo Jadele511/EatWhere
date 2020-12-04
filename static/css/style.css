@@ -11,7 +11,7 @@ body {
 
 #eatwhere-logo {
   margin-bottom: none;
-  width: 50px;
+  width: 60px;
 }
 
 #group-name {
@@ -88,9 +88,16 @@ body {
 }
 
 #thumbs-up {
-  border-radius: 5rem;
+  border-radius: 5em;
   padding: 0.5rem;
-  size: 5rem;
+  size: 5em;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#thumbs-up-icon{
+  font-size: 25px;
+  display: block;
 }
 
 #nextBtn {
