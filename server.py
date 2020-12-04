@@ -1,7 +1,7 @@
 """Server for EatWhere app."""
 
 from flask import (Flask, render_template, request, flash, session,
-                   redirect, jsonify, url_for)
+                   redirect, jsonify, url_for, make_response)
 from model import connect_to_db
 import os
 import crud
@@ -86,7 +86,9 @@ def get_restaurants_seach():
     for idx in range(len(yelp_list)):
         yelp_id = yelp_list[idx]["id"]
         res = crud.get_restaurant_by_id(yelp_id)
-        group_name = request.cookies["group_name"]
+        group_name = None
+        if 'group_name' in request.cookies:
+            group_name = request.cookies["group_name"]
         like = crud.get_like(user, res, group_name)
         biz = YelpAPI(API_KEY).business_query(id=yelp_id)
         biz_res = restaurant_from_yelp(biz, like, like_count=0)
@@ -163,16 +165,16 @@ def authorize():
     return redirect('/')
 
 
-@app.route('/facebook-authorize')
-def fb_auth():
-    pass
-
 
 @app.route("/logout")
 def process_logout():
     for key in list(session.keys()):
         session.pop(key)
-    return redirect('/')
+    response = make_response(redirect('/'))
+    response.set_cookie('group_name', '', expires=0)
+
+    return response    
+
 
 
 @app.route('/like/<yelp_id>')
@@ -180,7 +182,10 @@ def is_liked(yelp_id):
     user_id = session['user_id']
     user = crud.get_user_by_id(user_id)
     res = crud.get_restaurant_by_id(yelp_id)
-    group_name = request.cookies["group_name"]
+    group_name = None
+    if 'group_name' in request.cookies:
+        group_name = request.cookies["group_name"]
+
     if not res:
         crud.create_restaurant(yelp_id)
         res = crud.get_restaurant_by_id(yelp_id)
@@ -197,7 +202,9 @@ def is_liked(yelp_id):
 
 @app.route('/vote-result.json')
 def vote_result():
-    group_name = request.cookies["group_name"]
+    group_name = None
+    if 'group_name' in request.cookies:
+        group_name = request.cookies["group_name"]
     res = crud.get_restaurant_with_most_likes(group_name)
     yelp_id = res[0]
     like_count = res[1]

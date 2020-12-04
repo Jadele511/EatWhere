@@ -6,13 +6,14 @@ let userLong = 0;
 let userLat = 0;
 let map;
 let resMarker;
-document.cookie = "group_name=" + "";
-let group_name = document.cookie
-.split('; ')
-.find(row => row.startsWith('group_name'))
-.split('=')[1]; 
+let group_name;
+ 
 
-if (group_name != "") {  
+if (document.cookie.indexOf('group_name=') > -1) {  
+  group_name = document.cookie
+  .split('; ')
+  .find(row => row.startsWith('group_name'))
+  .split('=')[1]; 
   $("#group-name").html(`You are in ${group_name} group`)
 } else {
   $("#group-name").html("Create your group")
@@ -162,6 +163,9 @@ $("#search-sort-by").on("change", onChange);
 
 $("#group-name").on("click", () => {
   let group = prompt("Please enter your group: ")
-  document.cookie = "group_name=" + group;
-  $("#group-name").html(`You are in ${group} group`)
+  if (group) {
+    document.cookie = "group_name=" + group;
+    $("#group-name").html(`You are in ${group} group`)
+  }
+  
 })
