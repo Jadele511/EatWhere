@@ -89,7 +89,9 @@ $("#thumbs-up").on("click", () => {
   $.get(`/like/${biz.id}`, (res) => {
     let color = res.liked ? "#e55e5b" : "gray";
     $("#thumbs-up").attr("style", "color:" + color);
+    resultYelp[resultIndex].liked = res.liked;
   });
+  
 });
 
 $("#resultBtn").on("click", () => {
