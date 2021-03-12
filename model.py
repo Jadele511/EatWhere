@@ -2,6 +2,7 @@
 
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import func, desc
+import os
 
 db = SQLAlchemy()
 
@@ -45,7 +46,7 @@ class Like(db.Model):
         return f"<Like like_id={self.like_id} group_name={self.group_name}>"
 
 
-def connect_to_db(flask_app, db_uri='postgresql:///eatwhere', echo=True):
+def connect_to_db(flask_app, db_uri=os.environ['DATABASE_URL'], echo=True):
     flask_app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
     flask_app.config['SQLALCHEMY_ECHO'] = echo
     flask_app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
