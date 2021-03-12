@@ -75,7 +75,8 @@ def get_restaurants_seach():
     price = request.args.get('price')
     sort_by = request.args.get('sort_by')
 
-    yelp_res = YelpAPI(API_KEY).search_query(location=location, longitude=longitude, latitude=latitude, categories=categories,price=price, sort_by=sort_by, limit=5)
+    yelp_res = YelpAPI(API_KEY).search_query(location=location, longitude=longitude,
+                                             latitude=latitude, categories=categories, price=price, sort_by=sort_by, limit=5)
 
     yelp_list = yelp_res["businesses"]
     biz_list = []
@@ -165,7 +166,6 @@ def authorize():
     return redirect('/')
 
 
-
 @app.route("/logout")
 def process_logout():
     for key in list(session.keys()):
@@ -173,8 +173,7 @@ def process_logout():
     response = make_response(redirect('/'))
     response.set_cookie('group_name', '', expires=0)
 
-    return response    
-
+    return response
 
 
 @app.route('/like/<yelp_id>')
@@ -214,6 +213,7 @@ def vote_result():
 
     return jsonify(res_detail)
 
-if __name__ == '__main__':
-    connect_to_db(app)
-    app.run(host='0.0.0.0', debug=True)
+
+# if __name__ == '__main__':
+connect_to_db(app)
+app.run(host='0.0.0.0', debug=True)
